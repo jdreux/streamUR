@@ -86,7 +86,7 @@ TwitterAdapter.add = function(name, options) {
   streams[name] = new TwitterAdapter(name,options);
 }
 
-TwitterAdapter.add("streamur",{username: "streamur",password: "streamur1", track:"test"});
+TwitterAdapter.add("streamur",{username: "streamur",password: "streamur1", follow:"streamur"});
 
 exports.JavascriptAdapter = JavascriptAdapter;
 exports.TwitterAdapter = TwitterAdapter;
