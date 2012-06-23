@@ -73,7 +73,7 @@ function selectProcessor(selType){
 
 function addStream(){
 	var html = '<form>';
-	html += '<input type="text" />';
+	html += '<p>Name: <input type="text" /></p>';
 	$('#mainView').html(html);
 	return false;
 }
