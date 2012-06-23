@@ -131,7 +131,6 @@ function addTweet(tweet) {
   var imgur = /imgur/i;
   var img = '<div>';
   if (tweet.urls) {
-    console.log(tweet.urls);
     for (var i = 0; i < tweet.urls.length; i++) {
       var url = tweet.urls[i].expanded_url;
       if (imgur.test(url)) {
