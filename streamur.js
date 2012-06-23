@@ -36,7 +36,8 @@ JavascriptAdapter.add("twitimg","files/twitimg.js");
 JavascriptAdapter.add("interface","public/interface_operations.js");
 JavascriptAdapter.add("twtest","files/twtest.js");
 
-TwitterAdapter.add("streamur",{username: "streamur",password: "streamur1", follow:"imgur"});
+TwitterAdapter.add("streamur",{username: "streamur",password: "streamur1", follow:"streamur"});
+TwitterAdapter.add("imgur",{username: "streamur",password: "streamur1", follow:"imgur"});
 
 console.log("StreamUR listening on port 8000.");
 
