@@ -12,10 +12,6 @@ app.configure(function(){
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
-app.listen(80);
+app.listen(8000);
 
-console.log("StreamUR listening on port 80.");
-
-app.get('/:segment', function(req, res, next){
-	
-});
+console.log("StreamUR listening on port 8000.");
