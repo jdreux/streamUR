@@ -129,28 +129,36 @@ createProcessor('twitter', 'html', 'listImages', function(stream) {
   var out = new BufferedStream();
   var imgur = /imgur/i;
 
+  stream.resume();
+  var entity = "";
   stream.on('data', function(chunk) {
-    var img = '<div>';
-    var tweet = JSON.parse(chunk);
-    if (tweet.urls) {
-      for (var i = 0; i < tweet.urls.length; i++) {
-        if (imgur.test(urls[i].expanded_url)) {
-          img += '<img  src="' + urls[i].expanded_url.replace(/\/gallery/, '') + '.png' + '">';
+    entity += chunk;
+    if (entity.indexOf('\n') > -1) {
+      var tweet = JSON.parse(entity.substring(0, entity.indexOf('\n'))).entities;
+      var img = '<div>';
+      if (tweet.urls) {
+        for (var i = 0; i < tweet.urls.length; i++) {
+          if (imgur.test(urls[i].expanded_url)) {
+            img += '<img  src="' + urls[i].expanded_url.replace(/\/gallery/, '') + '.png' + '">';
+          }
         }
       }
+      img += "</div>";
+      out.write(img);
+
+      entity = entity.substring(entity.indexOf('\n'), entity.length);
     }
-    img += "</div>";
-    out.write(img);
   });
 
   stream.on('end', function() {
     out.end();
   });
 
+  return out;
 });
 
 createProcessor('html', 'html', 'html', function(stream) {
-  stream.headers = stream.headers | {};
+  stream.headers = stream.headers || {};
   stream.headers['Content-Type'] = "text/html";
   return stream;
 });

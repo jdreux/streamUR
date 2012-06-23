@@ -1,10 +1,9 @@
 var express = require('express'),
 	processSegments = require('./controller'),
 	_ = require('underscore'),
-	multipart = require("multipart"),
 	events = require("events"),
 	formidable = require('formidable'),
-	sys = require("sys"),
+	util = require("util"),
 	JavascriptAdapter = require('./adapter').JavascriptAdapter,
 	TwitterAdapter = require('./adapter').TwitterAdapter;
 	
@@ -32,8 +31,9 @@ console.log('Adding sample streams');
 JavascriptAdapter.add("stream1","files/stream1.js");
 JavascriptAdapter.add("stream2","files/stream2.js");
 JavascriptAdapter.add("jquery","files/jquery-1.7.2.js");
+JavascriptAdapter.add("twitimg","files/twitimg.js");
 
-TwitterAdapter.add("streamur",{username: "streamur",password: "streamur1", follow:"streamur"});
+TwitterAdapter.add("streamur",{username: "streamur",password: "streamur1", follow:"imgur"});
 
 console.log("StreamUR listening on port 8000.");
 
@@ -60,31 +60,52 @@ app.get('/streams', function(req, res, next){
 	res.end(JSON.stringify(streamResponse));
 });
 
-app.put('/streams', function(req, res, next){
-	if(!req.body){
-		throw "Missing body";
-	} else {
-		var newSt = req.body;
+app.post('/streams', function(req, res, next){
+	console.log("Received request");
+	var form = new formidable.IncomingForm();
+	
+	form.on('fileBegin', function(name, file){
+		file.path = 'file/'+file.name;
+	});	
+	
+	form.parse(req, function(err, fields, files) {
+		if(!fields || !fields.name || !fields.type){
+			res.end("Missing name or type");
+			return;
+		}
 		
-		if(newSt.type == 'js'){
-			var form = new formidable.IncomingForm();
+		var type = fields.type;
+		
+		if(type == 'js'){
+			if(!files || files.length !=1){
+				res.end("Missing stream file");
+				return;
+			} else {
+				JavascriptAdapter.add(fields.name, files.path);
+				res.redirect('/');
+				return;
+			}
 			
-			form.on('fileBegin', function(name, file){
-				file.path = 'file/'+file.name;
-			});	
+		} else if(type =='twitter'){
+			var params = {username: "streamur",password: "streamur1"};
 			
-			form.parse(req, function(err, fields, files) {
-		      res.writeHead(200, {'content-type': 'text/plain'});
-		      res.write('received upload:\n');
-		      res.end(util.inspect({fields: fields, files: files}));
-		    });
-		    return;
-		} else if(newSt.type =='twitter') {
+			if(fields.follow){
+				params.follow = fields.follow;
+			}
 			
+			if(fields.track){
+				params.track = fields.track;
+			}
+			
+			TwitterAdapter.add(fields.name, params);
+			res.redirect('/');
+			return;
 		} else {
 			res.end("Unsupported type: "+newSt.type);
 		}
-	}
+		
+      
+    });
 })
 
 app.get('/:segment', function(req, res, next){

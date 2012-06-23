@@ -27,11 +27,6 @@ function getProcessors() {
     return false;
 }
 
-function sendForm() {
-    // Still needs to be written!
-    // I need to know what format is desired.
-}
-
 function buildStreams(data){
     var streamTypes = data;
     var streamList = '<div class="streamList"><br />';
@@ -72,8 +67,24 @@ function selectProcessor(selType){
 }
 
 function addStream(){
-	var html = '<form>';
-	html += '<p>Name: <input type="text" /></p>';
+	var html = '<form id="newStream" enctype="multipart/form-data" method="post" target="/streams">';
+	html += '<p>Name: <input type="text" name="name" /></p>';
+	html += '<p>Type:</p>';
+	html += '<p><input type="radio" name="type" value="js" /> js</p>';
+//	html += '<p><input type="radio" name="type" value="image" /> Image</p>';
+	html += '<p><input type="radio" name="type" value="twitter" /> Twitter</p>';
+//	html += '<p><input type="submit" value="Next" /></p>';
+	html += '</div></form>';
+	html += '<div class="sendButton"><a href="" class="button next" onclick="return sendForm()">streamUR</a></div>';
+	
 	$('#mainView').html(html);
 	return false;
 }
+
+function sendForm() {
+	console.log("Sending form");
+	$("#newStream").submit(function(){
+		return true;
+	});
+}
+
