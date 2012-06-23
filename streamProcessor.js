@@ -52,4 +52,4 @@ createProcessor('js', 'js', 'nocache', function(stream) {
 });
 
 createProcessor('js', 'js', 'gzip', function(stream) {
-}):
+});
