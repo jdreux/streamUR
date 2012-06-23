@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>StreamUR index, super-alpha</title>
+    <meta charset="utf8">
+    <script type="text/javascript"
+    src="jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="interface_operations.js"></script>
+    <link href="buttons.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <p>This will become an interface once I've pieced
+    together the way forms will interact. In the meantime
+    I'll see what CSS I can hack together for it.</p>
+    <h3>Streams</h3>
+    <!-- GET a list of streams, make a list to select
+    from. -->
+    <div class="streamButton">
+    <a href="" class="button add" onclick="return getStreams()">New Stream</a>
+    </div>
+    <h3>Processors</h3>
+    <!-- GET a list of processors, make a list of links to --
+      -- select from, then reduce to just it (with a delete --
+      -- option next to it. This is all starting to come --
+      -- together. -->
+    <div class="processorButton">
+    <a href="" class="button add" onclick="return getProcessors()">New Processor</a>
+    </div>
+  </body>
+</html>

@@ -7,7 +7,7 @@ function JavascriptAdapter(name) {
 }
 
 JavascriptAdapter.prototype = {
-  type: "javascript",
+  type: "js",
   
   init: function(name) {
     this._fileName = name;

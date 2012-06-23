@@ -1,11 +1,12 @@
 var adapter = require('./adapter'),
 	streams = adapter.streams,
 	streamProcessor = require('./streamProcessor'),
-	processors = streamProcessor.processorList,
+	processors = streamProcessor.listProcessors,
 	validateType = streamProcessor.validateType
 
-module.exports = function processSegments(segments, onSuccess, onError){
-	
+module.exports = function processSegments(segments, onSuccess, onError, onNotFound){
+	console.log(streams);
+	console.log(processors);
 	var chain = [];
 	var cp = 0;
 	var type = undefined;
@@ -21,12 +22,20 @@ module.exports = function processSegments(segments, onSuccess, onError){
 		
 		if(streams[seg]){
 			console.log("Matched stream");
-			var stream = streams[seg];
+			var stream = streams[seg].openStream();
 			type = stream.type;
 			if(resultStream){
-				resultStream = processors.cat.run(resultStream, stream);
+				resultStream = processors.cat.init(resultStream, stream);
+				if(!resultStream){
+					onError("Cat returned unll stream");
+					return;
+				}
 			} else {
 				resultStream = stream;
+				if(!resultStream){
+					onError(seg+" returned null stream");
+					return;
+				}
 			}			
 		} else if(processors[seg]){
 			console.log("Matched processor");
@@ -36,12 +45,16 @@ module.exports = function processSegments(segments, onSuccess, onError){
 				return;
 			}
 			type = proc.outputType;
-			resultStream = proc.run(resultStream);
+			resultStream = proc.init(resultStream);
+			if(!resultStream){
+				onError(seg+" returned null stream");
+			}
 		} else {
-			onError("Could not resolve: "+seg);
+			console.log("Could not resolve: "+seg);
+			onNotFound();
 			return;
 		}
 	}
 	
-	return resultStream;
+	onSuccess(resultStream);
 }
