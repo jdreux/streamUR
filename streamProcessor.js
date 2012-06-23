@@ -69,8 +69,9 @@ createProcessor('js', 'js', 'min', function(stream) {
   var out = new BufferedStream();
   var orig_code = "";
 
+  console.log(stream);
+  // stream.setEncoding('utf8');
   stream.resume();
-  stream.setEncoding('utf8');
   stream.on('data', function(chunk) {
     orig_code += chunk;
   });
@@ -80,7 +81,7 @@ createProcessor('js', 'js', 'min', function(stream) {
     ast = pro.ast_squeeze(ast); // get an AST with compression optimizations
     var final_code = pro.gen_code(ast); // compressed code here
     out.write(final_code);
-    out.close();
+    out.end();
   });
   return out;
 });
