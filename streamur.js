@@ -32,6 +32,7 @@ JavascriptAdapter.add("stream1","files/stream1.js");
 JavascriptAdapter.add("stream2","files/stream2.js");
 JavascriptAdapter.add("jquery","files/jquery-1.7.2.js");
 JavascriptAdapter.add("twitimg","files/twitimg.js");
+JavascriptAdapter.add("interface","public/interface_operations.js");
 
 TwitterAdapter.add("streamur",{username: "streamur",password: "streamur1", follow:"imgur"});
 
