@@ -43,7 +43,8 @@ function buildStreams(data){
 
 function selectStream(selType){
     var selectedType = jQuery.parseJSON(selType);
-    $('.streamList').before('<div class="selectedStream">'+selectedType.name+' <input name="streamName" required></div>');
+    var html = '<div class="selectedStream">'+selectedType.name+' <input name="streamName" required></div>';
+    $('.streamList').before(html);
     $('.streamList').remove();
     return false;
 }
@@ -68,6 +69,8 @@ function selectProcessor(selType){
 }
 
 function addStream(){
-	var html = '';
+	var html = '<form>';
+	html += '<input type="text" />';
 	$('#mainView').html(html);
+	return false;
 }
