@@ -1,8 +1,15 @@
 // Some interface tools so that the HTML isn't cluttered.
 
+$(function(){
+	getStreams();
+//	getProcessors();
+});
+
 function getStreams() {
     $.get("/streams",function(data){
-	    $('.streamButton').before(buildStreams(data));
+		var html = buildStreams(data);
+		console.log(html);
+	    $('.streamButton').before(html);
 	} )
 	.error( function() { alert("No streams found!"); } ); 
     $('.streamButton').prepend('<p>Where streams go.</p>');
@@ -25,14 +32,11 @@ function sendForm() {
 }
 
 function buildStreams(data){
-    var streamTypes = jQuery.parseJSON(data);
+    var streamTypes = data;
     var streamList = '<div class="streamList"><br />';
     for ( var i in streamTypes ) {
-	streamList = streamList + '<div
-    class="'+streamTypes[i].type+'"><a href=""
-    class="button" onclick="return
-    selectStream('+JSON.stringify(streamTypes[i])+')">'+streamTypes[i].name+'</a></div><br
-    />';
+	streamList = streamList + '<div class="'+streamTypes[i].type+'"><a href="" class="button" onclick="return selectStream('+
+		JSON.stringify(streamTypes[i])+')">'+streamTypes[i].name+'</a></div><br/>';
     }
     streamList = streamList+'</div>';
     return streamList;
@@ -40,9 +44,7 @@ function buildStreams(data){
 
 function selectStream(selType){
     var selectedType = jQuery.parseJSON(selType);
-    $('.streamList').before('<div
-    class="selectedStream">'+selectedType.name+' <input
-    name="streamName" required></div>');
+    $('.streamList').before('<div class="selectedStream">'+selectedType.name+' <input name="streamName" required></div>');
     $('.streamList').remove();
     return false;
 }
@@ -52,11 +54,8 @@ function buildProcessors(data){
     var processorTypes = jQuery.parseJSON(data);
     var processorList = '<div class="processorList"><br />';
     for ( var i in processorTypes ) {
-	processorList = processorList + '<div
-    class="'+processorTypes[i].type+'"><a href=""
-    class="button" onclick="return
-    selectProcessor('+JSON.stringify(processorTypes[i])+')">'+processorTypes[i].name+'</a></div><br
-    />';
+	processorList = processorList + '<div class="'+processorTypes[i].type+'"><a href="" class="button" onclick="return selectProcessor('
+		+JSON.stringify(processorTypes[i])+')">'+processorTypes[i].name+'</a></div><br/>';
     }
     processorList = processorList+'</div>';
     return processorList;
@@ -64,8 +63,7 @@ function buildProcessors(data){
 
 function selectProcessor(selType){
     var selectedType = jQuery.parseJSON(selType);
-    $('.processorList').before('<div
-    class="selectedProcessor">'+selectedType.name+'</div>');
+    $('.processorList').before('<div class="selectedProcessor">'+selectedType.name+'</div>');
     $('.processorList').remove();
     return false;
 }
