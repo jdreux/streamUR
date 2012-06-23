@@ -109,7 +109,7 @@ createProcessor('js', 'js', 'gzip', function(stream) {
 				throw err;
 			}
 		  	out.write(data);
-	    	out.close();
+	    	out.end();
 		});
 	    
 	  });
