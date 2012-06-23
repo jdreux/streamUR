@@ -178,9 +178,7 @@ createProcessor('twitter', 'html', 'listImages', function(stream) {
   out.headers = stream.headers;
   stream.resume();
   var entity = "";
-setTimeout(function(){
-	stream.emit('end');
-}, 10000)
+	setTimeout(function(){stream.emit('end');}, 10000);
   stream.on('data', function(chunk) {
     entity += chunk;
     while (entity.indexOf('\n') > -1) {

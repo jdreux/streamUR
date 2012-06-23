@@ -54,6 +54,8 @@ app.get('/streams', function(req, res, next){
 		
 		if(st.type == 'js'){
 			st.filename= streams[i]._fileName;
+		} else	if(st.type == 'twitter'){
+			st.filename= streams[i]._name;
 		}
 		
 		
@@ -118,9 +120,9 @@ app.get('/:segment', function(req, res, next){
 	var segments = req.params.segment.split('.');
 	
 	if(cache[requested] && cache[requested].completed){
-		if(cache.headers){
-			for(var i in cache.headers){
-				res.setHeader(i, cache.headers[i]);
+		if(cache[requested].headers){
+			for(var i in cache[requested].headers){
+				res.setHeader(i, cache[requested].headers[i]);
 			}	
 		}
 		res.end(cache[requested].value);
@@ -135,21 +137,23 @@ app.get('/:segment', function(req, res, next){
 					res.setHeader(i, stream.headers[i]);
 				}
 			}
-	/*		cache[requested] = {
-				headers : stream.headers,
-				completed : false,
-				value: ''
+			
+/*			if(requested.indexOf('.js')>-1){
+				cache[requested] = {
+					headers : stream.headers,
+					completed : false,
+					value: ''
+				}
+
+				stream.on('data', function(chunk){
+					cache[requested].value += chunk;
+				})
+
+				stream.on('end', function(){
+					cache[requested].completed = true;
+				})
 			}
-			
-			stream.on('data', function(chunk){
-				cache[requested].value += chunk;
-			})
-			
-			stream.on('end', function(){
-				cache[requested].completed = true;
-			})
-		*/	
-			
+			*/
 			stream.resume();
 			stream.pipe(res);
 		/*	stream.on('data', function(chunk){

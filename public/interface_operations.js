@@ -42,7 +42,11 @@ function selectStream(i){
 	var stream = streams[i];
     var html = '<h2>'+stream.name+'</h2>';
 	html += '<p>Type: '+stream.type+'</p>';
-	html += '<p>Filename: '+stream.filename+'</p>';
+	if(stream.filename){
+		html += '<p>Filename: '+stream.filename+'</p>';
+	} else if(stream.username){
+		html += '<p>Filename: '+stream.username+'</p>';
+	}
 	$('#mainView').html(html);
 	
 }
@@ -92,7 +96,7 @@ function sendForm() {
     }
     button = true;
     $("form").append("<input type='submit'>");
-    $'.sendButton').remove();
+    $('.sendButton').remove();
     return false;
 }
 
