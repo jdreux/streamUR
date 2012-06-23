@@ -15,3 +15,9 @@ app.configure(function(){
 app.listen(8000);
 
 console.log("StreamUR listening on port 8000.");
+
+app.get('/:segment', function(req, res, next){
+	var segments = req.params.segment.split('.');
+	
+	res.end(JSON.stringify(segments));
+});
