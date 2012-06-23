@@ -28,8 +28,7 @@ function buildStreams(data){
     var streamTypes = jQuery.parseJSON(data);
     var streamList = '<div class="streamList"><br />';
     for ( var i in streamTypes ) {
-	streamList = streamList + '<div
-    class="'+streamTypes[i].type+'"><a href=""
+	streamList = streamList + '<div class="'+streamTypes[i].type+'"><a href=""
     class="button" onclick="return
     selectStream('+JSON.stringify(streamTypes[i])+')">'+streamTypes[i].name+'</a></div><br
     />';
