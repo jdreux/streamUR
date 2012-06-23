@@ -44,23 +44,21 @@ var cat = {
   },
   init: function(stream1, stream2) {
     var out = new BufferedStream();
-    stream1.on('data', function(chunk) {
-		console.log("s1 "+chunk);
-      out.write(chunk);
+	stream1.resume();
+	stream1.on('data', function(chunk) {
+      	out.write(chunk);
     });
-    stream1.on('end', function() {
-	console.log("s1 end");
-      stream2.on('data', function(chunk) {
-			console.log("s2 "+chunk);
-        out.write(chunk);
-      });
-      stream2.on('end', function() {
-	console.log("s2 end");
-        out.end();
-      });
-    });
-
-    return out;
+	stream1.on('end', function(){
+		stream2.resume();
+		stream2.on('data', function(chunk) {
+	        out.write(chunk);
+	     });
+	
+		stream2.on('end', function(chunk) {
+			out.end();
+	     });
+	});
+	return out;
   }
 }
 processorList['cat'] = cat;
