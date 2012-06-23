@@ -69,7 +69,6 @@ createProcessor('js', 'js', 'min', function(stream) {
   var out = new BufferedStream();
   var orig_code = "";
 
-  console.log(stream);
   // stream.setEncoding('utf8');
   stream.resume();
   stream.on('data', function(chunk) {
@@ -100,7 +99,7 @@ createProcessor('js', 'js', 'gzip', function(stream) {
 	stream.headers = stream.headers || {};
 	stream.headers["Content-Encoding"] = "gzip";
 	stream.resume();
-	stream.setEncoding('utf8');
+	// stream.setEncoding('utf8');
 	stream.on('data', function(chunk) {
 	    orig_code += chunk;
 	});
