@@ -15,6 +15,7 @@ JavascriptAdapter.prototype = {
 
   openStream: function() {
     this.stream = fs.createReadStream(this.name); 
+    return this.stream;
   }
   closeStream: function() {
     this.stream.destroy();
