@@ -60,8 +60,8 @@ app.get('/streams', function(req, res, next){
 	res.end(JSON.stringify(streamResponse));
 });
 
-app.put('/streams', function(req, res, next){
-	
+app.post('/streams', function(req, res, next){
+	console.log("Received request");
 	var form = new formidable.IncomingForm();
 	
 	form.on('fileBegin', function(name, file){
@@ -97,7 +97,7 @@ app.put('/streams', function(req, res, next){
 				params.track = fields.track;
 			}
 			
-			TwitterAdapter.add("streamur", params);
+			TwitterAdapter.add(fields.name, params);
 			res.redirect('/');
 			return;
 		} else {
