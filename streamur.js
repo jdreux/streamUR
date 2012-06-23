@@ -24,7 +24,8 @@ app.get('/streams', function(req, res, next){
 	var streamResponse = [];
 	for(var i in streams){
 		streamResponse.push({
-			name: i
+			name: i,
+      type: streams[i].type
 		});
 	}
 	
