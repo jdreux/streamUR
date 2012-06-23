@@ -82,5 +82,26 @@ TwitterAdapter.add = function(name, options) {
   streams[name] = new TwitterAdapter(name,options);
 }
 
+function HTTPAdapter(name) {
+  this.init(name)
+}
+
+HTTPAdapter.prototype = {
+	type: 'http',
+	init: function(url){
+		this.url = url;
+	},
+	
+	openStream: function(callback) {
+		
+	}
+}
+
+
+HTTPAdapter.add = function(name, url){
+	streams[name] = new HTTPAdapter(name,options);
+}
+
+
 exports.JavascriptAdapter = JavascriptAdapter;
 exports.TwitterAdapter = TwitterAdapter;

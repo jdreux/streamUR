@@ -13,6 +13,7 @@
     "underscore": ">0",
     "gzip": ">0",
 	"formidable": ">0",
-	"tmp": ">0"
+	"tmp": ">0",
+	"imagemagick":">0"
   }
 }

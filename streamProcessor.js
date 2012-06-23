@@ -170,6 +170,7 @@ createProcessor('twitter', 'html', 'listImages', function(stream) {
   return out;
 });
 
+
 createProcessor('html', 'html', 'html', function(stream) {
   stream.headers = stream.headers || {};
   stream.headers['Content-Type'] = "text/html";
@@ -181,28 +182,3 @@ createProcessor('img', 'img', 'png', function(stream) {
   stream.headers['Content-Type'] = "image/png";
   return stream;
 });
-
-createProcessor('img', 'img', 'gif', function(stream) {
-  stream.headers = stream.headers || {};
-  stream.headers['Content-Type'] = "image/gif";
-  return stream;
-});
-
-
-createProcessor('img', 'img', 'png2gif', function(stream){
-	tmp.file({postfix:'.png'}, function _tempFileCreated(err, filepath, fd) {
-	    if (err) throw err;
-
-	    fs.write(fd, buffer, 0, buffer.length, null, function(err,written,buff){
-	        fs.close(fd, function(){
-				console.log(filepath);
-//	             im.convert([filepath,"thumb.jpg"], function(err, metadata) {
-//	                 if (err) throw err;
-//	             });
-	         });
-	    });
-	});
-});
-
-
-
