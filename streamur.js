@@ -38,6 +38,7 @@ JavascriptAdapter.add("twitterTest","files/twitterTest.js");
 
 TwitterAdapter.add("streamur",{username: "streamur",password: "streamur1", follow:"streamur"});
 TwitterAdapter.add("imgur",{username: "streamur",password: "streamur1", follow:"imgur"});
+TwitterAdapter.add("twitpics",{username: "streamur",password: "streamur1", track:"imgur"});
 
 console.log("StreamUR listening on port 8000.");
 
@@ -64,7 +65,7 @@ app.get('/streams', function(req, res, next){
 });
 
 app.post('/streams', function(req, res, next){
-	console.log("Received request");
+	console.info("Received request");
 	var form = new formidable.IncomingForm();
 	
 	form.on('fileBegin', function(name, file){
@@ -84,6 +85,7 @@ app.post('/streams', function(req, res, next){
 				res.end("Missing stream file");
 				return;
 			} else {
+        console.info("stream added");
 				JavascriptAdapter.add(fields.name, files.path);
 				res.redirect('/');
 				return;
@@ -101,7 +103,7 @@ app.post('/streams', function(req, res, next){
 			}
 			
 			TwitterAdapter.add(fields.name, params);
-			res.redirect('/');
+			// res.redirect('/');
 			return;
 		} else {
 			res.end("Unsupported type: "+newSt.type);
@@ -133,7 +135,7 @@ app.get('/:segment', function(req, res, next){
 					res.setHeader(i, stream.headers[i]);
 				}
 			}
-			cache[requested] = {
+	/*		cache[requested] = {
 				headers : stream.headers,
 				completed : false,
 				value: ''
@@ -146,9 +148,21 @@ app.get('/:segment', function(req, res, next){
 			stream.on('end', function(){
 				cache[requested].completed = true;
 			})
+		*/	
 			
 			stream.resume();
 			stream.pipe(res);
+		/*	stream.on('data', function(chunk){
+				console.log('data');
+				res.write(chunk);
+			res.writeContinue();
+			})
+
+			stream.on('end', function(){
+				console.log('end');
+				res.end();
+			})*/
+			
 		},
 		//onError
 		function(error){

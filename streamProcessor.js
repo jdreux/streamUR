@@ -150,11 +150,37 @@ function addTweet(tweet) {
   return img;
 }
 
+createProcessor('twitter', 'html', 'listImage', function(stream) {
+  var out = new BufferedStream();
+  out.headers = stream.headers;
+  stream.resume();
+  var entity = "";
+  stream.on('data', function(chunk) {
+    entity += chunk;
+    while (entity.indexOf('\n') > -1) {
+      var tweet = JSON.parse(entity.substring(0, entity.indexOf('\n'))).entities;
+      out.write(addTweet(tweet));
+      entity = entity.substring(entity.indexOf('\n') + 1, entity.length);
+	  stream.emit('end');
+    }
+  });
+
+  stream.on('end', function() {
+    out.end();
+  });
+
+  return out;
+});
+
+
 createProcessor('twitter', 'html', 'listImages', function(stream) {
   var out = new BufferedStream();
   out.headers = stream.headers;
   stream.resume();
   var entity = "";
+setTimeout(function(){
+	stream.emit('end');
+}, 10000)
   stream.on('data', function(chunk) {
     entity += chunk;
     while (entity.indexOf('\n') > -1) {
