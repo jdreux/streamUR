@@ -71,8 +71,13 @@ TwitterAdapter.prototype = {
 
   _generate_filter_options: function(options) {
     parsed = {};
-    parsed["track"] = options["track"];
-    parsed["follow"] = options["follow"];
+	if( options["track"]){
+		parsed["track"] = options["track"];
+	}
+	
+	if( options["follow"]){
+		parsed["follow"] = options["follow"];
+	}
     return parsed;
   }
 }
