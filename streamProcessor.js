@@ -1,6 +1,7 @@
 var jsp = require("uglify-js").parser;
 var pro = require("uglify-js").uglify,
-	BufferedStream = require('./BufferedStream');
+	BufferedStream = require('./BufferedStream'),
+	gzip = require('gzip');
 
 var processorList = {};
 
@@ -92,10 +93,31 @@ createProcessor('js', 'js', 'nocache', function(stream) {
 });
 
 createProcessor('js', 'js', 'gzip', function(stream) {
+	var out = new BufferedStream();
+	var orig_code = "";
+	stream.resume();
+	stream.setEncoding('utf8');
+	stream.on('data', function(chunk) {
+	    orig_code += chunk;
+	});
+	stream.on('end', function() {
+	   	gzip(orig_code, function(err, data){
+		  // By default:
+		  //   compression = 8
+		  //   encoding = utf8
+			if(err){
+				throw err;
+			}
+		  	out.write(data);
+	    	out.close();
+		});
+	    
+	  });
+	  return out;
 });
 
 createProcessor('js', 'js', 'js', function(stream) {
-	stream.headers = stream.headers || {};
+  stream.headers = stream.headers || {};
   stream.headers['Content-Type'] = "application/javascript";
   return stream;
 });
