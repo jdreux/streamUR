@@ -1,5 +1,5 @@
 var fs = require("fs");
-var http = require("http");
+var https = require("https");
 var querystring = require('querystring');
 
 var streams = exports.streams = {};
@@ -62,7 +62,7 @@ TwitterAdapter.prototype = {
       }
     };
 
-    var treq = http.request(twitter_options, function(tres) {
+    var treq = https.request(twitter_options, function(tres) {
       tres.type = "twitter";
       callback(tres);
     });
