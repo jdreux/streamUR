@@ -15,17 +15,29 @@
     <!--<h3>Streams</h3>-->
     <!-- GET a list of streams, make a list to select
     from. -->
-    <div class="streamButton">
-      <a href="" class="button add" onclick="return getStreams()">New Stream</a>
-    </div>
+	
+	<table>
+		<tr>
+			<td>
+					<h1>Your Streams</h1>
+			    	<div class="streamButton">
+				      <a href="" class="button add" onclick="return addStream()">New Stream</a>
+				    </div>
+			</td>
+			<td>
+				<div id="mainView">
+				</div>
+			</td>
+		</tr>
+	</table>
     <!--<h3>Processors</h3>-->
     <!-- GET a list of processors, make a list of links to --
       -- select from, then reduce to just it (with a delete --
       -- option next to it. This is all starting to come --
-      -- together. -->
+      -- together
     <div class="processorButton">
       <a href="" class="button add" onclick="return getProcessors()">New Processor</a>
-    </div>
+    </div>. -->
     <div class="sendButton">
       <a href="" class="button next" onclick="return
       sendForm()">streamUR</a>

@@ -12,7 +12,6 @@ function getStreams() {
 	    $('.streamButton').before(html);
 	} )
 	.error( function() { alert("No streams found!"); } ); 
-    $('.streamButton').prepend('<p>Where streams go.</p>');
     return false;
 }
 
@@ -66,4 +65,9 @@ function selectProcessor(selType){
     $('.processorList').before('<div class="selectedProcessor">'+selectedType.name+'</div>');
     $('.processorList').remove();
     return false;
+}
+
+function addStream(){
+	var html = '';
+	$('#mainView').html(html);
 }
