@@ -47,6 +47,7 @@ var cat = {
   },
   init: function(stream1, stream2) {
     var out = new BufferedStream();
+	out.headers = stream1.headers;
 	stream1.resume();
 	stream1.on('data', function(chunk) {
       	out.write(chunk);
@@ -100,6 +101,7 @@ createProcessor('js', 'js', 'gzip', function(stream) {
 	
 	stream.headers = stream.headers || {};
 	stream.headers["Content-Encoding"] = "gzip";
+	out.headers = stream.headers;
 	stream.resume();
 	// stream.setEncoding('utf8');
 	stream.on('data', function(chunk) {
@@ -151,7 +153,7 @@ function addTweet(tweet) {
 
 createProcessor('twitter', 'html', 'listImages', function(stream) {
   var out = new BufferedStream();
-
+  out.headers = stream.headers;
   stream.resume();
   var entity = "";
   stream.on('data', function(chunk) {

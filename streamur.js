@@ -8,6 +8,7 @@ var express = require('express'),
 	TwitterAdapter = require('./adapter').TwitterAdapter;
 	
 var app = express.createServer();
+var cache = {};
 
 app.configure(function(){
     app.use(express.methodOverride());
@@ -45,8 +46,7 @@ app.get('/streams', function(req, res, next){
 	for(var i in streams){
 		var st = {
 			name: i,
-      		type: streams[i].type,
-			
+      		type: streams[i].type
 		}
 		
 		if(st.type == 'js'){
@@ -110,9 +110,18 @@ app.post('/streams', function(req, res, next){
 })
 
 app.get('/:segment', function(req, res, next){
-	
+	var requested = req.params.segment;
 	var segments = req.params.segment.split('.');
 	
+	if(cache[requested] && cache[requested].completed){
+		if(cache.headers){
+			for(var i in cache.headers){
+				res.setHeader(i, cache.headers[i]);
+			}	
+		}
+		res.end(cache[requested].value);
+		return;
+	}
 	
 	var stream = processSegments(segments,
 		//onSuccess
@@ -122,6 +131,20 @@ app.get('/:segment', function(req, res, next){
 					res.setHeader(i, stream.headers[i]);
 				}
 			}
+			cache[requested] = {
+				headers : stream.headers,
+				completed : false,
+				value: ''
+			}
+			
+			stream.on('data', function(chunk){
+				cache[requested].value += chunk;
+			})
+			
+			stream.on('end', function(){
+				cache[requested].completed = true;
+			})
+			
 			stream.resume();
 			stream.pipe(res);
 		},
