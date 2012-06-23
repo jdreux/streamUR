@@ -42,18 +42,24 @@ app.get('/:segment', function(req, res, next){
 	var segments = req.params.segment.split('.');
 	
 	var stream = processSegments(segments,
+		//onSuccess
+		function(stream){
+			if(stream.headers){
+				for(var i in stream.headers){
+					res.setHeader(i, stream.headers[i]);
+				}
+			}
+			stream.pipe(res);
+		},
 		//onError
 		function(error){
 			console.error("Received error: "+error);
-			next(error, req, res, next);
+			res.statusCode = 500;
+			res.end("Received error: "+error);
+			return;
+		},
+		function onNotFound(){
+			next();
 		}
 	);
-	
-	if(stream.headers){
-		for(var i in stream.headers){
-			res.setHeader(i, stream.headers[i]);
-		}
-	}
-	
-	stream.pipe(res);
 });
