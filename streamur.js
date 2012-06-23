@@ -1,10 +1,9 @@
 var express = require('express'),
 	processSegments = require('./controller'),
 	_ = require('underscore'),
-	multipart = require("multipart"),
 	events = require("events"),
 	formidable = require('formidable'),
-	sys = require("sys"),
+	util = require("util"),
 	JavascriptAdapter = require('./adapter').JavascriptAdapter,
 	TwitterAdapter = require('./adapter').TwitterAdapter;
 	
@@ -61,30 +60,31 @@ app.get('/streams', function(req, res, next){
 });
 
 app.put('/streams', function(req, res, next){
-	if(!req.body){
-		throw "Missing body";
-	} else {
-		var newSt = req.body;
+	
+	var form = new formidable.IncomingForm();
+	
+	form.on('fileBegin', function(name, file){
+		file.path = 'file/'+file.name;
+	});	
+	
+	form.parse(req, function(err, fields, files) {
+		if(!fields || !fields.name || !fields.type){
+			console.log("Missing name or type");
+		}
 		
-		if(newSt.type == 'js'){
-			var form = new formidable.IncomingForm();
+		var type = fields.type;
+		
+		if(type == 'js'){
 			
-			form.on('fileBegin', function(name, file){
-				file.path = 'file/'+file.name;
-			});	
-			
-			form.parse(req, function(err, fields, files) {
-		      res.writeHead(200, {'content-type': 'text/plain'});
-		      res.write('received upload:\n');
-		      res.end(util.inspect({fields: fields, files: files}));
-		    });
-		    return;
-		} else if(newSt.type =='twitter') {
+		} else if(type =='twitter'){
 			
 		} else {
 			res.end("Unsupported type: "+newSt.type);
 		}
-	}
+		
+      res.redirect('/');
+      //res.end(util.inspect({fields: fields, files: files}));
+    });
 })
 
 app.get('/:segment', function(req, res, next){
