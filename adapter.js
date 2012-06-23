@@ -58,7 +58,7 @@ TwitterAdapter.prototype = {
     var req = http.request(twitter_options, function(res) {
       res.type = "twitter";
       callback(res);
-    }
+    });
   }
 
 }
