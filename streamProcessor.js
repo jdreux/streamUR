@@ -181,12 +181,8 @@ createProcessor('img', 'img', 'png', function(stream) {
   stream.headers = stream.headers || {};
   stream.headers['Content-Type'] = "image/png";
   return stream;
-<<<<<<< HEAD
 });
 
 createProcessor('img','gif','gif', function(stream) {
 
 });
-=======
-});
->>>>>>> 289582e0f262f803a1be3f01d3510d8a878f9b2e
