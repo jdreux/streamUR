@@ -32,9 +32,9 @@ console.log('Adding sample streams');
 JavascriptAdapter.add("stream1","files/stream1.js");
 JavascriptAdapter.add("stream2","files/stream2.js");
 JavascriptAdapter.add("jquery","files/jquery-1.7.2.js");
-JavascriptAdapter.add("twitimg","files/twitimg.js");
+JavascriptAdapter.add("twitterImg","files/twitterImg.js");
 JavascriptAdapter.add("interface","public/interface_operations.js");
-JavascriptAdapter.add("twtest","files/twtest.js");
+JavascriptAdapter.add("twitterTest","files/twitterTest.js");
 
 TwitterAdapter.add("streamur",{username: "streamur",password: "streamur1", follow:"streamur"});
 TwitterAdapter.add("imgur",{username: "streamur",password: "streamur1", follow:"imgur"});
