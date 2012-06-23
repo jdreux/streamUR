@@ -14,6 +14,7 @@
     "gzip": ">0",
 	"formidable": ">0",
 	"tmp": ">0",
-	"imagemagick":">0"
+	"imagemagick":">0",
+  "twitter":">0"
   }
 }
