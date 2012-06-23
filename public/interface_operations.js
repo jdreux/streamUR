@@ -1,4 +1,6 @@
 // Some interface tools so that the HTML isn't cluttered.
+var streams;
+
 
 $(function(){
 	getStreams();
@@ -7,8 +9,8 @@ $(function(){
 
 function getStreams() {
     $.get("/streams",function(data){
+		streams = data;
 		var html = buildStreams(data);
-		console.log(html);
 	    $('.streamButton').before(html);
 	} )
 	.error( function() { alert("No streams found!"); } ); 
@@ -34,18 +36,20 @@ function buildStreams(data){
     var streamTypes = data;
     var streamList = '<div class="streamList"><br />';
     for ( var i in streamTypes ) {
-	streamList = streamList + '<div class="'+streamTypes[i].type+'"><a href="" class="button" onclick="return selectStream('+
-		JSON.stringify(streamTypes[i])+')">'+streamTypes[i].name+'</a></div><br/>';
+	streamList = streamList + '<div class="'+streamTypes[i].type+'"><a href="#" class="button" onclick="return selectStream('+
+		i+')">'+streamTypes[i].name+'</a></div><br/>';
     }
     streamList = streamList+'</div>';
     return streamList;
 }
 
-function selectStream(selType){
-    var selectedType = jQuery.parseJSON(selType);
-    $('.streamList').before('<div class="selectedStream">'+selectedType.name+' <input name="streamName" required></div>');
-    $('.streamList').remove();
-    return false;
+function selectStream(i){
+	var stream = streams[i];
+    var html = '<h2>'+stream.name+'</h2>';
+	html += '<p>Type: '+stream.type+'</p>';
+	html += '<p>Filename: '+stream.filename+'</p>';
+	$('#mainView').html(html);
+	
 }
     
 
