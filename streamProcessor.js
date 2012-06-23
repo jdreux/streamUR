@@ -65,9 +65,10 @@ processorList['cat'] = cat;
 
 createProcessor('js', 'js', 'min', function(stream) {
 
-  var out = stream;
+  var out = new BufferedStream();
   var orig_code = "";
 
+  stream.resume();
   stream.setEncoding('utf8');
   stream.on('data', function(chunk) {
     orig_code += chunk;
@@ -84,14 +85,17 @@ createProcessor('js', 'js', 'min', function(stream) {
 });
 
 createProcessor('js', 'js', 'nocache', function(stream) {
-
+  stream.headers = stream.headers || {};
+  stream.headers["Cache-Control"] = "no-cache, must-revalidate";
+  stream.headers["Expires"] = "Sat, 26 Jul 1997 05:00:00 GMT";
+  return stream;
 });
 
 createProcessor('js', 'js', 'gzip', function(stream) {
 });
 
 createProcessor('js', 'js', 'js', function(stream) {
-	stream.headers = {};
+	stream.headers = stream.headers || {};
   stream.headers['Content-Type'] = "application/javascript";
   return stream;
 });
