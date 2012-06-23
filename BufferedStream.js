@@ -14,6 +14,7 @@ var BufferedStream = function (limit) {
   this.readable = true;
 }
 util.inherits(BufferedStream, stream.Stream);
+
 BufferedStream.prototype.pipe = function (dest, options) {
   var self = this
   if (self.resume) self.resume();

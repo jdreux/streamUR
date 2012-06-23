@@ -15,6 +15,7 @@ JavascriptAdapter.prototype = {
 
   openStream: function() {
     stream = fs.createReadStream(this._fileName); 
+	stream.setEncoding('utf8');
 	stream.type = this.type;
 	stream.pause();
     return stream;
