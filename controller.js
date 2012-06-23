@@ -20,23 +20,24 @@ module.exports = function processSegments(segments, onSuccess, onError, onNotFou
 		
 		if(streams[seg]){
 			console.log("Matched stream");
-			var stream = streams[seg].openStream();
-			type = stream.type;
-			if(resultStream){
-				console.log("concating "+seg);
-				resultStream = processors.cat.init(resultStream, stream);
-				if(!resultStream){
-					onError("Cat returned unll stream");
-					return;
+			streams[seg].openStream( function(stream){
+				type = stream.type;
+				if(resultStream){
+					console.log("concating "+seg);
+					resultStream = processors.cat.init(resultStream, stream);
+					if(!resultStream){
+						onError("Cat returned unll stream");
+						return;
+					}
+				} else {
+					console.log("initial stream: "+seg);
+					resultStream = stream;
+					if(!resultStream){
+						onError(seg+" returned null stream");
+						return;
+					}
 				}
-			} else {
-				console.log("initial stream: "+seg);
-				resultStream = stream;
-				if(!resultStream){
-					onError(seg+" returned null stream");
-					return;
-				}
-			}			
+			});	
 		} else if(processors[seg]){
 			console.log("Matched processor");
 			var proc = processors[seg];
