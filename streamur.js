@@ -8,6 +8,7 @@ var express = require('express'),
 	TwitterAdapter = require('./adapter').TwitterAdapter;
 	
 var app = express.createServer();
+var cache = {};
 
 app.configure(function(){
     app.use(express.methodOverride());
@@ -35,7 +36,9 @@ JavascriptAdapter.add("twitimg","files/twitimg.js");
 JavascriptAdapter.add("interface","public/interface_operations.js");
 JavascriptAdapter.add("twtest","files/twtest.js");
 
-TwitterAdapter.add("streamur",{username: "streamur",password: "streamur1", follow:"imgur"});
+TwitterAdapter.add("streamur",{username: "streamur",password: "streamur1", follow:"streamur"});
+TwitterAdapter.add("imgur",{username: "streamur",password: "streamur1", follow:"imgur"});
+TwitterAdapter.add("twitpics",{username: "streamur",password: "streamur1", track:"imgur"});
 
 console.log("StreamUR listening on port 8000.");
 
@@ -47,7 +50,6 @@ app.get('/streams', function(req, res, next){
 		var st = {
 			name: i,
       		type: streams[i].type
-			
 		}
 		
 		if(st.type == 'js'){
@@ -112,9 +114,18 @@ app.post('/streams', function(req, res, next){
 })
 
 app.get('/:segment', function(req, res, next){
-	
+	var requested = req.params.segment;
 	var segments = req.params.segment.split('.');
 	
+	if(cache[requested] && cache[requested].completed){
+		if(cache.headers){
+			for(var i in cache.headers){
+				res.setHeader(i, cache.headers[i]);
+			}	
+		}
+		res.end(cache[requested].value);
+		return;
+	}
 	
 	var stream = processSegments(segments,
 		//onSuccess
@@ -124,8 +135,34 @@ app.get('/:segment', function(req, res, next){
 					res.setHeader(i, stream.headers[i]);
 				}
 			}
+	/*		cache[requested] = {
+				headers : stream.headers,
+				completed : false,
+				value: ''
+			}
+			
+			stream.on('data', function(chunk){
+				cache[requested].value += chunk;
+			})
+			
+			stream.on('end', function(){
+				cache[requested].completed = true;
+			})
+		*/	
+			
 			stream.resume();
 			stream.pipe(res);
+		/*	stream.on('data', function(chunk){
+				console.log('data');
+				res.write(chunk);
+			res.writeContinue();
+			})
+
+			stream.on('end', function(){
+				console.log('end');
+				res.end();
+			})*/
+			
 		},
 		//onError
 		function(error){

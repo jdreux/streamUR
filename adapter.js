@@ -3,7 +3,7 @@ var https = require("https");
 var querystring = require('querystring');
 var util = require("util");
 var twitter = require("twitter");
-var streamur = new twitter({
+var streamurtwt = new twitter({
   consumer_key: "7NpTkV3TGiQpWFJYAYRsg",
   consumer_secret: 'GHv3exIasVzfXeY1jW8Gl9F1r2M6Tzf9rFiIl8aYTK8',
   access_token_key: '616344256-CGwdvTVW9COdWqSBklGdZiF7ABMVGhzBMlDfNul2',
@@ -43,24 +43,22 @@ TwitterAdapter.prototype = {
   type: "twitter",
 
   init: function(name,options) {
+	var me = this;
     this._name = name;
     this._username = options["username"];
     this._password = options["password"];
     this.options = options;
+	
+	if(this.options["follow"]) {
+		console.log("Retrieving user id for "+this.options["follow"]);
+		streamurtwt.showUser(this.options["follow"], function(user_info){
+			me.userId = user_info["id"];
+			console.log(me.options["follow"]+" : "+me.userId);
+		});
+	}
   },
 
   openStream: function(callback) {
-    if (this.options["follow"] && this.options["follow"] instanceof Array && this.options["cache"] != true) {
-      this.find_names_and_call_back(this.options["follow"],[],callback)
-    }
-    else if(this.options["follow"] && this.options["cache"] != true) {
-      this.find_names_and_call_back([this.options["follow"]],[],callback)
-    }
-    else {
-      openStreamfinally(callback);
-    }
-  },
-  openStreamfinally: function(callback) {
     var auth = "Basic " + new Buffer(this._username + ':' + this._password).toString("base64");
 
     var post_data = querystring.stringify(this._generate_filter_options(this.options));
@@ -82,7 +80,6 @@ TwitterAdapter.prototype = {
     });
     console.info(post_data);
     treq.write(post_data);
-
   },
 
   _generate_filter_options: function(options) {
@@ -93,27 +90,9 @@ TwitterAdapter.prototype = {
 
     if( options["follow"]){
       console.info(options["follow"]);
-      parsed["follow"] = options["follow"];
+      parsed["follow"] = this.userId;
     }
     return parsed;
-  },
-
-  find_names_and_call_back: function(names,ids,callback) {
-    if (names.length == 0) {
-      this.options["follow"] = ids;
-      this.options["cache"] = true;
-      this.openStreamfinally(callback);
-    }
-    else {
-      var name = names.pop();
-      var call = this.push_id_and_back.bind(this,callback,names,ids);
-      streamur.showUser(name,call);
-    }
-  },
-
-  push_id_and_back: function(callback,names,ids,user_info) {
-    ids.push(user_info["id"]);
-    this.find_names_and_call_back(names,ids,callback);
   }
 
 }

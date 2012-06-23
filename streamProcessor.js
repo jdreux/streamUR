@@ -47,6 +47,7 @@ var cat = {
   },
   init: function(stream1, stream2) {
     var out = new BufferedStream();
+	out.headers = stream1.headers;
 	stream1.resume();
 	stream1.on('data', function(chunk) {
       	out.write(chunk);
@@ -100,6 +101,7 @@ createProcessor('js', 'js', 'gzip', function(stream) {
 	
 	stream.headers = stream.headers || {};
 	stream.headers["Content-Encoding"] = "gzip";
+	out.headers = stream.headers;
 	stream.resume();
 	// stream.setEncoding('utf8');
 	stream.on('data', function(chunk) {
@@ -131,7 +133,6 @@ function addTweet(tweet) {
   var imgur = /imgur/i;
   var img = '<div>';
   if (tweet.urls) {
-    console.log(tweet.urls);
     for (var i = 0; i < tweet.urls.length; i++) {
       var url = tweet.urls[i].expanded_url;
       if (imgur.test(url)) {
@@ -149,11 +150,37 @@ function addTweet(tweet) {
   return img;
 }
 
-createProcessor('twitter', 'html', 'listImages', function(stream) {
+createProcessor('twitter', 'html', 'listImage', function(stream) {
   var out = new BufferedStream();
-
+  out.headers = stream.headers;
   stream.resume();
   var entity = "";
+  stream.on('data', function(chunk) {
+    entity += chunk;
+    while (entity.indexOf('\n') > -1) {
+      var tweet = JSON.parse(entity.substring(0, entity.indexOf('\n'))).entities;
+      out.write(addTweet(tweet));
+      entity = entity.substring(entity.indexOf('\n') + 1, entity.length);
+	  stream.emit('end');
+    }
+  });
+
+  stream.on('end', function() {
+    out.end();
+  });
+
+  return out;
+});
+
+
+createProcessor('twitter', 'html', 'listImages', function(stream) {
+  var out = new BufferedStream();
+  out.headers = stream.headers;
+  stream.resume();
+  var entity = "";
+setTimeout(function(){
+	stream.emit('end');
+}, 10000)
   stream.on('data', function(chunk) {
     entity += chunk;
     while (entity.indexOf('\n') > -1) {
