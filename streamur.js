@@ -1,4 +1,6 @@
-var express = require('express');
+var express = require('express'),
+	processSegments = require('./controller'),
+	_ = require('underscore');
 
 var app = express.createServer();
 
@@ -19,5 +21,18 @@ console.log("StreamUR listening on port 8000.");
 app.get('/:segment', function(req, res, next){
 	var segments = req.params.segment.split('.');
 	
-	res.end(JSON.stringify(segments));
+	var stream = processSegments(segments,
+		//onError
+		function(error){
+			next(error, req, res, next);
+		}
+	);
+	
+	if(stream.headers){
+		for(var i in stream.headers){
+			res.setHeader(i, stream.headers[i]);
+		}
+	}
+	
+	stream.pipe(res);
 });
