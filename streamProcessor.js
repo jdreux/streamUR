@@ -125,28 +125,39 @@ createProcessor('js', 'js', 'js', function(stream) {
   return stream;
 });
 
+function addTweet(tweet) {
+  var imgur = /imgur/i;
+  var img = '<div>';
+  if (tweet.urls) {
+    console.log(tweet.urls);
+    for (var i = 0; i < tweet.urls.length; i++) {
+      var url = tweet.urls[i].expanded_url;
+      if (imgur.test(url)) {
+        if (!/\....$/.test(url)) {
+          var hash = /\/([^\/]*$)/;
+          var res = hash.exec(url);
+          url = "http://i.imgur.com/"+res[1] + ".png";
+        }
+        img += '<img  src="' + url + '">';
+        img += "</div><div>";
+      }
+    }
+  }
+  img += "</div>";
+  return img;
+}
+
 createProcessor('twitter', 'html', 'listImages', function(stream) {
   var out = new BufferedStream();
-  var imgur = /imgur/i;
 
   stream.resume();
   var entity = "";
   stream.on('data', function(chunk) {
     entity += chunk;
-    if (entity.indexOf('\n') > -1) {
+    while (entity.indexOf('\n') > -1) {
       var tweet = JSON.parse(entity.substring(0, entity.indexOf('\n'))).entities;
-      var img = '<div>';
-      if (tweet.urls) {
-        for (var i = 0; i < tweet.urls.length; i++) {
-          if (imgur.test(urls[i].expanded_url)) {
-            img += '<img  src="' + urls[i].expanded_url.replace(/\/gallery/, '') + '.png' + '">';
-          }
-        }
-      }
-      img += "</div>";
-      out.write(img);
-
-      entity = entity.substring(entity.indexOf('\n'), entity.length);
+      out.write(addTweet(tweet));
+      entity = entity.substring(entity.indexOf('\n') + 1, entity.length);
     }
   });
 
