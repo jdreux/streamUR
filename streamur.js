@@ -14,6 +14,8 @@ app.configure(function(){
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
+console.log(require('stream').Stream.ReadableStream);
+
 app.listen(8000);
 
 console.log("StreamUR listening on port 8000.");
