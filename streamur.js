@@ -97,7 +97,7 @@ app.put('/streams', function(req, res, next){
 				params.track = fields.track;
 			}
 			
-			TwitterAdapter.add("streamur", params);
+			TwitterAdapter.add(fields.name, params);
 			res.redirect('/');
 			return;
 		} else {
