@@ -153,7 +153,7 @@ createProcessor('html', 'html', 'html', function(stream) {
   stream.headers = stream.headers | {};
   stream.headers['Content-Type'] = "text/html";
   return stream;
-}
+});
 
 createProcessor('img', 'img', 'png', function(stream) {
   stream.headers = stream.headers || {};
