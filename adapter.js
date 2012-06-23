@@ -1,5 +1,5 @@
 var fs = require("fs");
-var http = require("http");
+var https = require("https");
 var querystring = require('querystring');
 
 var streams = exports.streams = {};
@@ -48,9 +48,7 @@ TwitterAdapter.prototype = {
   openStream: function(callback) {
     var auth = "Basic " + new Buffer(this._username + ':' + this._password).toString("base64");
 
-    var post_data = querystring.stringify({
-      track: this.options["track"]
-    });
+    var post_data = querystring.stringify(this._generate_filter_options(this.options));
 
     var twitter_options = {
       host: "stream.twitter.com",
@@ -64,12 +62,19 @@ TwitterAdapter.prototype = {
       }
     };
 
-    var treq = http.request(twitter_options, function(tres) {
+    var treq = https.request(twitter_options, function(tres) {
       tres.type = "twitter";
       callback(tres);
     });
     treq.write(post_data);
 
+  },
+
+  _generate_filter_options: function(options) {
+    parsed = {};
+    parsed["track"] = options["track"];
+    parsed["follow"] = options["follow"];
+    return parsed;
   }
 }
 
