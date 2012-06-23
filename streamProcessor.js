@@ -124,3 +124,40 @@ createProcessor('js', 'js', 'js', function(stream) {
   stream.headers['Content-Type'] = "application/javascript";
   return stream;
 });
+
+createProcessor('twitter', 'html', 'listImages', function(stream) {
+  var out = new BufferedStream();
+  var imgur = /imgur/i;
+
+  stream.on('data', function(chunk) {
+    var img = '<div>';
+    var tweet = JSON.parse(chunk);
+    if (tweet.urls) {
+      for (var i = 0; i < tweet.urls.length) {
+        if imgur.test(urls[i].expanded_url) {
+          img += '<img  src="' + urls[i].expanded_url.replace(/\/gallery/, '') + '.png' + '">';
+        }
+      }
+    }
+    img += "</div>";
+    out.write(img);
+  });
+
+  stream.on('end', function() {
+    out.end();
+  });
+
+});
+
+createProcessor('html', 'html', 'html', function(stream) {
+  stream.headers = stream.headers | {};
+  stream.headers['Content-Type'] = "text/html";
+  return stream;
+}
+
+createProcessor('img', 'img', 'png', function(stream) {
+  stream.headers = stream.headers || {};
+  stream.headers['Content-Type'] = "image/png";
+  return stream;
+});
+
