@@ -7,20 +7,19 @@ function StreamProcessor(inType, outType, processFunction) {
   this.inputType = inType;
   this.outputTye = outType;
   this.name = 'unknown';
-  
-  this.validate = function(type) {
-    return type === this.inputType;
-  };
-
-  this.init = function(stream) {
-    if (stream.type !== this.inputType) {
-      throw new Exception("mismatched types in " + this.name);
-    }
-    return processFunction(stream);
-  };
+  this.fun = processFunction; 
 }
 
 StreamProcessor.prototype = {
+  validate: function(type) {
+    return type === this.inputType;
+  },
+  init: function(stream) {
+    if (stream.type !== this.inputType) {
+      throw new Exception("mismatched types in " + this.name);
+    }
+    return this.fun(stream);
+  }
 }
 
 function createProcessor(inType, outType, name, fun) {
@@ -41,7 +40,7 @@ var cat = {
   validate : function(type) {
     return type === cat.inputType;
   },
-  run: function(stream1, stream2) {
+  init: function(stream1, stream2) {
     // TODO: This won't work.
     var out = stream;
     stream1.on('data', function(chunk) {
@@ -82,6 +81,7 @@ createProcessor('js', 'js', 'min', function(stream) {
 });
 
 createProcessor('js', 'js', 'nocache', function(stream) {
+
 });
 
 createProcessor('js', 'js', 'gzip', function(stream) {
