@@ -33,7 +33,7 @@ JavascriptAdapter.add("stream1","files/stream1.js");
 JavascriptAdapter.add("stream2","files/stream2.js");
 JavascriptAdapter.add("jquery","files/jquery-1.7.2.js");
 
-TwitterAdapter.add("streamur",{username: "streamur",password: "streamur1", track:"test"});
+TwitterAdapter.add("streamur",{username: "streamur",password: "streamur1", follow:"streamur"});
 
 console.log("StreamUR listening on port 8000.");
 
