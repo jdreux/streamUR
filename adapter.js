@@ -27,5 +27,6 @@ JavascriptAdapter.add = function(name, filename) {
 
 JavascriptAdapter.add("stream1","stream1.js");
 JavascriptAdapter.add("stream2","stream2.js");
+JavascriptAdapter.add("jquery","jquery-1.7.2.js");
 
 exports.JavascriptAdapter = JavascriptAdapter;
