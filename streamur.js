@@ -1,5 +1,6 @@
 var express = require('express'),
-	processSegments = require('./controller');
+	processSegments = require('./controller'),
+	_ = require('underscore');
 
 var app = express.createServer();
 
@@ -26,6 +27,12 @@ app.get('/:segment', function(req, res, next){
 			next(error, req, res, next);
 		}
 	);
+	
+	if(stream.headers){
+		for(var i in stream.headers){
+			res.setHeader(i, stream.headers[i]);
+		}
+	}
 	
 	stream.pipe(res);
 });
