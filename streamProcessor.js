@@ -95,6 +95,9 @@ createProcessor('js', 'js', 'nocache', function(stream) {
 createProcessor('js', 'js', 'gzip', function(stream) {
 	var out = new BufferedStream();
 	var orig_code = "";
+	
+	stream.headers = stream.headers || {};
+	stream.headers["Content-Encoding"] = "gzip";
 	stream.resume();
 	stream.setEncoding('utf8');
 	stream.on('data', function(chunk) {
