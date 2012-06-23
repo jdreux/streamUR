@@ -133,7 +133,7 @@ createProcessor('twitter', 'html', 'listImages', function(stream) {
     var img = '<div>';
     var tweet = JSON.parse(chunk);
     if (tweet.urls) {
-      for (var i = 0; i < tweet.urls.length) {
+      for (var i = 0; i < tweet.urls.length; i++) {
         if imgur.test(urls[i].expanded_url) {
           img += '<img  src="' + urls[i].expanded_url.replace(/\/gallery/, '') + '.png' + '">';
         }
