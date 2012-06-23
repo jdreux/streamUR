@@ -60,14 +60,13 @@ TwitterAdapter.prototype = {
       callback(res);
     });
   }
-
 }
 
 TwitterAdapter.add = function(name, options) {
   streams[name] = new TwitterAdapter(name,options);
 }
 
-TwitterAdapter.add("streamUr",{username: "streamUr",password: "streamUr", track:"test"});
+TwitterAdapter.add("streamUr",{username: "streamUr",password: "streamur1", track:"test"});
 
 exports.JavascriptAdapter = JavascriptAdapter;
 exports.TwitterAdapter = TwitterAdapter;
