@@ -2,10 +2,10 @@
 var streams;
 
 
-$(function(){
+window.onload = function(){
 	getStreams();
 //	getProcessors();
-});
+};
 
 function getStreams() {
     $.get("/streams",function(data){
@@ -67,7 +67,7 @@ function selectProcessor(selType){
 }
 
 function addStream(){
-	var html = '<div class="newStreamForm"><form id="newStream" enctype="multipart/form-data" method="post" target="/streams" onSubmit="return sendForm()">';
+	var html = '<div class="newStreamForm"><form id="newStream" method="post" action="http://127.0.0.1:8000/streams">';
 	html += '<p>Name: <input type="text" name="name" /></p>';
 	html += '<p>Type:</p>';
 	html += '<p><input type="radio" name="type" value="js" /> js</p>';
@@ -75,24 +75,24 @@ function addStream(){
 	html += '<p><input type="radio" name="type" value="twitter" /> Twitter</p>';
 //	html += '<p><input type="submit" value="Next" /></p>';
 	html += '</form>';
-	html += '<div class="sendButton"><a href="" class="button next" onclick="return sendForm()">streamUR</a></div></div>';
+	html += '<div class="sendButton"><a href="" class="button next" onclick="return sendForm();">streamUR</a></div></div>';
 	
 	$('#mainView').html(html);
 	return false;
 }
 
+var button = false;
 function sendForm() {
-    console.log("Sending form");
     var selected = $('input:radio[name=type]:checked').val();
     if ( selected == "js" ) {
-	$('.newStreamForm').after('<form><p>Select file: <input type="file" name="inputFile" size="40" /></p> <p><input type="submit" value="Go!" /></p></form>');
+	$('.sendButton').before('<p>Select file: <input type="file" name="inputFile" size="40" /></p> ');
     }
     if ( selected == "twitter" ) {
-	$('.newStreamForm').after('<form><p>Track: <input type="text" name="trackWords" /></p> <p>Follow: <input type="text" name="followUser" /></p><p><input type="submit" value="Go!" /></p></form>');
+	$('.sendButton').before('<p>Track: <input type="text" name="trackWords" /></p> <p>Follow: <input type="text" name="followUser" />');
     }
-
-
+    button = true;
+    $("form").append("<input type='submit'>");
+    $'.sendButton').remove();
     return false;
-
 }
 

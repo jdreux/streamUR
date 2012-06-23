@@ -46,7 +46,7 @@ app.get('/streams', function(req, res, next){
 	for(var i in streams){
 		var st = {
 			name: i,
-      		type: streams[i].type,
+      		type: streams[i].type
 			
 		}
 		
@@ -63,7 +63,7 @@ app.get('/streams', function(req, res, next){
 });
 
 app.post('/streams', function(req, res, next){
-	console.log("Received request");
+	console.info("Received request");
 	var form = new formidable.IncomingForm();
 	
 	form.on('fileBegin', function(name, file){
@@ -83,6 +83,7 @@ app.post('/streams', function(req, res, next){
 				res.end("Missing stream file");
 				return;
 			} else {
+        console.info("stream added");
 				JavascriptAdapter.add(fields.name, files.path);
 				res.redirect('/');
 				return;
@@ -100,7 +101,7 @@ app.post('/streams', function(req, res, next){
 			}
 			
 			TwitterAdapter.add(fields.name, params);
-			res.redirect('/');
+			// res.redirect('/');
 			return;
 		} else {
 			res.end("Unsupported type: "+newSt.type);

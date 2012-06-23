@@ -50,10 +50,10 @@ TwitterAdapter.prototype = {
   },
 
   openStream: function(callback) {
-    if (this.options["follow"] && this.options["follow"] instanceof Array) {
+    if (this.options["follow"] && this.options["follow"] instanceof Array && this.options["cache"] != true) {
       this.find_names_and_call_back(this.options["follow"],[],callback)
     }
-    else if(this.options["follow"]) {
+    else if(this.options["follow"] && this.options["cache"] != true) {
       this.find_names_and_call_back([this.options["follow"]],[],callback)
     }
     else {
@@ -101,6 +101,7 @@ TwitterAdapter.prototype = {
   find_names_and_call_back: function(names,ids,callback) {
     if (names.length == 0) {
       this.options["follow"] = ids;
+      this.options["cache"] = true;
       this.openStreamfinally(callback);
     }
     else {
