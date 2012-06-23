@@ -1,5 +1,6 @@
 var jsp = require("uglify-js").parser;
-var pro = require("uglify-js").uglify;
+var pro = require("uglify-js").uglify,
+	BufferedStream = require('./BufferedStream');
 
 var processorList = {};
 
@@ -15,9 +16,10 @@ StreamProcessor.prototype = {
     return type === this.inputType;
   },
   init: function(stream) {
+/*
     if (stream.type !== this.inputType) {
-      throw new Exception("mismatched types in " + this.name);
-    }
+      throw "mismatched types in " + this.name;
+    } */
     return this.fun(stream);
   }
 }
@@ -41,17 +43,20 @@ var cat = {
     return type === cat.inputType;
   },
   init: function(stream1, stream2) {
-    // TODO: This won't work.
-    var out = stream;
+    var out = new BufferedStream();
     stream1.on('data', function(chunk) {
+		console.log("s1 "+chunk);
       out.write(chunk);
     });
     stream1.on('end', function() {
+	console.log("s1 end");
       stream2.on('data', function(chunk) {
+			console.log("s2 "+chunk);
         out.write(chunk);
       });
       stream2.on('end', function() {
-        out.close();
+	console.log("s2 end");
+        out.end();
       });
     });
 
