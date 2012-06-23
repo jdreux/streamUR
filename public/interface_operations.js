@@ -67,24 +67,32 @@ function selectProcessor(selType){
 }
 
 function addStream(){
-	var html = '<form id="newStream" enctype="multipart/form-data" method="post" target="/streams">';
+	var html = '<div class="newStreamForm"><form id="newStream" enctype="multipart/form-data" method="post" target="/streams" onSubmit="return sendForm()">';
 	html += '<p>Name: <input type="text" name="name" /></p>';
 	html += '<p>Type:</p>';
 	html += '<p><input type="radio" name="type" value="js" /> js</p>';
 //	html += '<p><input type="radio" name="type" value="image" /> Image</p>';
 	html += '<p><input type="radio" name="type" value="twitter" /> Twitter</p>';
 //	html += '<p><input type="submit" value="Next" /></p>';
-	html += '</div></form>';
-	html += '<div class="sendButton"><a href="" class="button next" onclick="return sendForm()">streamUR</a></div>';
+	html += '</form>';
+	html += '<div class="sendButton"><a href="" class="button next" onclick="return sendForm()">streamUR</a></div></div>';
 	
 	$('#mainView').html(html);
 	return false;
 }
 
 function sendForm() {
-	console.log("Sending form");
-	$("#newStream").submit(function(){
-		return true;
-	});
+    console.log("Sending form");
+    var selected = $('input:radio[name=type]:checked').val();
+    if ( selected == "js" ) {
+	$('.newStreamForm').after('<form><p>Select file: <input type="file" name="inputFile" size="40" /></p> <p><input type="submit" value="Go!" /></p></form>');
+    }
+    if ( selected == "twitter" ) {
+	$('.newStreamForm').after('<form><p>Track: <input type="text" name="trackWords" /></p> <p>Follow: <input type="text" name="followUser" /></p><p><input type="submit" value="Go!" /></p></form>');
+    }
+
+
+    return false;
+
 }
 
