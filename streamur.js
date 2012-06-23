@@ -32,12 +32,19 @@ app.get('/streams', function(req, res, next){
 	res.end(JSON.stringify(streamResponse));
 });
 
+app.put('/streams', function(req, res, next){
+	if(!req.body){
+		throw "Missing body";
+	}
+})
+
 app.get('/:segment', function(req, res, next){
 	var segments = req.params.segment.split('.');
 	
 	var stream = processSegments(segments,
 		//onError
 		function(error){
+			console.error("Received error: "+error);
 			next(error, req, res, next);
 		}
 	);
