@@ -52,7 +52,6 @@ TwitterAdapter.prototype = {
 
     var twitter_options = {
       host: "stream.twitter.com",
-      port: "80",
       method: "POST",
       path: "/1/statuses/filter.json",
       headers: {
