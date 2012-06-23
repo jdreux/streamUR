@@ -134,7 +134,7 @@ createProcessor('twitter', 'html', 'listImages', function(stream) {
     var tweet = JSON.parse(chunk);
     if (tweet.urls) {
       for (var i = 0; i < tweet.urls.length; i++) {
-        if imgur.test(urls[i].expanded_url) {
+        if (imgur.test(urls[i].expanded_url)) {
           img += '<img  src="' + urls[i].expanded_url.replace(/\/gallery/, '') + '.png' + '">';
         }
       }
@@ -153,7 +153,7 @@ createProcessor('html', 'html', 'html', function(stream) {
   stream.headers = stream.headers | {};
   stream.headers['Content-Type'] = "text/html";
   return stream;
-}
+});
 
 createProcessor('img', 'img', 'png', function(stream) {
   stream.headers = stream.headers || {};
