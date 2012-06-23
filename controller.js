@@ -4,24 +4,48 @@ var adapter = require('./adapter'),
 	processors = streamProcessor.listProcessors,
 	validateType = streamProcessor.validateType
 
-module.exports = function processSegments(segments, onSuccess, onError, onNotFound){
-	var chain = [];
-	var cp = 0;
-	var type = undefined;
-	var resultStream;
+var onError,
+	onNotFound,
+	onSuccess,
+	nexts,
+	resultStream;
+
+module.exports = function processSegments(segments, _onSuccess, _onError, _onNotFound){
+	nexts = [];
+	onError = _onError;
+	onNotFound = _onNotFound;
+	onSuccess = _onSuccess;
+	resultStream = null;
 	
 	//Construct event chain.
 	for(var i=0; i<segments.length; i++){
-		
 		var seg = segments[i];
-		console.log("Processing segment "+seg);
-		var element = {};
-		
-		
+		nexts[i]= getProcessSegment(seg, i+1);
+	}
+	
+	//Let's go!
+	nexts[0]();
+	
+}
+
+function getProcessSegment(seg, nextIndex){
+	
+	
+	return function(){
+		var next;
+		if(nextIndex>nexts.length-1){
+			next = function(){ 
+						console.log("Processing chain done"); 
+						onSuccess(resultStream)
+					};
+		} else {
+			next = nexts[nextIndex];
+		}
+		console.log("Processing segment "+seg);	
+
 		if(streams[seg]){
 			console.log("Matched stream");
 			streams[seg].openStream( function(stream){
-				type = stream.type;
 				if(resultStream){
 					console.log("concating "+seg);
 					resultStream = processors.cat.init(resultStream, stream);
@@ -37,21 +61,16 @@ module.exports = function processSegments(segments, onSuccess, onError, onNotFou
 						return;
 					}
 				}
+				next()
 			});	
 		} else if(processors[seg]){
 			console.log("Matched processor");
 			var proc = processors[seg];
-		//	if(proc.inputType != type){
-		//		onError("Processor "+seg+" expects type "+proc.inputType+" but "+type+" was received");
-		//		return;
-		//	}
-		//	console.log(type);
-		//	type = proc.outputType;
-		//	console.log(type);
 			resultStream = proc.init(resultStream);
 			if(!resultStream){
 				onError(seg+" returned null stream");
 			}
+			next();
 		} else {
 			console.log("Could not resolve: "+seg);
 			onNotFound();
@@ -59,5 +78,4 @@ module.exports = function processSegments(segments, onSuccess, onError, onNotFou
 		}
 	}
 	
-	onSuccess(resultStream);
 }

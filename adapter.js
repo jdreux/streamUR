@@ -1,5 +1,6 @@
 var fs = require("fs");
-var http = require("http");
+var https = require("https");
+var querystring = require('querystring');
 
 var streams = exports.streams = {};
 
@@ -26,10 +27,6 @@ JavascriptAdapter.add = function(name, filename) {
   streams[name] = new JavascriptAdapter(filename);
 }
 
-JavascriptAdapter.add("stream1","stream1.js");
-JavascriptAdapter.add("stream2","stream2.js");
-JavascriptAdapter.add("jquery","jquery-1.7.2.js");
-
 function TwitterAdapter(name, options) {
   this.init(name,options)
 }
@@ -45,28 +42,45 @@ TwitterAdapter.prototype = {
   },
 
   openStream: function(callback) {
-    var auth = this._username + ':' + this._password;
+    var auth = "Basic " + new Buffer(this._username + ':' + this._password).toString("base64");
+
+    var post_data = querystring.stringify(this._generate_filter_options(this.options));
+
     var twitter_options = {
       host: "stream.twitter.com",
-      auth: auth,
       method: "POST",
       path: "/1/statuses/filter.json",
       headers: {
-        track: this.options["track"]
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': post_data.length,
+        'Authorization': auth
       }
     };
-    var req = http.request(twitter_options, function(res) {
-      res.type = "twitter";
-      callback(res);
+
+    var treq = https.request(twitter_options, function(tres) {
+      tres.type = "twitter";
+      callback(tres);
     });
+    treq.write(post_data);
+
+  },
+
+  _generate_filter_options: function(options) {
+    parsed = {};
+	if( options["track"]){
+		parsed["track"] = options["track"];
+	}
+	
+	if( options["follow"]){
+		parsed["follow"] = options["follow"];
+	}
+    return parsed;
   }
 }
 
 TwitterAdapter.add = function(name, options) {
   streams[name] = new TwitterAdapter(name,options);
 }
-
-TwitterAdapter.add("streamUr",{username: "streamUr",password: "streamur1", track:"test"});
 
 exports.JavascriptAdapter = JavascriptAdapter;
 exports.TwitterAdapter = TwitterAdapter;
