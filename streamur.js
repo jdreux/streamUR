@@ -31,8 +31,9 @@ console.log('Adding sample streams');
 JavascriptAdapter.add("stream1","files/stream1.js");
 JavascriptAdapter.add("stream2","files/stream2.js");
 JavascriptAdapter.add("jquery","files/jquery-1.7.2.js");
+JavascriptAdapter.add("twitimg","files/twitimg.js");
 
-TwitterAdapter.add("streamur",{username: "streamur",password: "streamur1", follow:"streamur"});
+TwitterAdapter.add("streamur",{username: "streamur",password: "streamur1", follow:"imgur"});
 
 console.log("StreamUR listening on port 8000.");
 
@@ -69,21 +70,41 @@ app.put('/streams', function(req, res, next){
 	
 	form.parse(req, function(err, fields, files) {
 		if(!fields || !fields.name || !fields.type){
-			console.log("Missing name or type");
+			res.end("Missing name or type");
+			return;
 		}
 		
 		var type = fields.type;
 		
 		if(type == 'js'){
+			if(!files || files.length !=1){
+				res.end("Missing stream file");
+				return;
+			} else {
+				JavascriptAdapter.add(fields.name, files.path);
+				res.redirect('/');
+				return;
+			}
 			
 		} else if(type =='twitter'){
+			var params = {username: "streamur",password: "streamur1"};
 			
+			if(fields.follow){
+				params.follow = fields.follow;
+			}
+			
+			if(fields.track){
+				params.track = fields.track;
+			}
+			
+			TwitterAdapter.add("streamur", params);
+			res.redirect('/');
+			return;
 		} else {
 			res.end("Unsupported type: "+newSt.type);
 		}
 		
-      res.redirect('/');
-      //res.end(util.inspect({fields: fields, files: files}));
+      
     });
 })
 
