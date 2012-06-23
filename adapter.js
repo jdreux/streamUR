@@ -27,10 +27,6 @@ JavascriptAdapter.add = function(name, filename) {
   streams[name] = new JavascriptAdapter(filename);
 }
 
-JavascriptAdapter.add("stream1","stream1.js");
-JavascriptAdapter.add("stream2","stream2.js");
-JavascriptAdapter.add("jquery","jquery-1.7.2.js");
-
 function TwitterAdapter(name, options) {
   this.init(name,options)
 }
@@ -85,8 +81,6 @@ TwitterAdapter.prototype = {
 TwitterAdapter.add = function(name, options) {
   streams[name] = new TwitterAdapter(name,options);
 }
-
-TwitterAdapter.add("streamur",{username: "streamur",password: "streamur1", track:"test"});
 
 exports.JavascriptAdapter = JavascriptAdapter;
 exports.TwitterAdapter = TwitterAdapter;
