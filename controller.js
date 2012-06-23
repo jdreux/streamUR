@@ -66,6 +66,7 @@ function getProcessSegment(seg, nextIndex){
 		} else if(processors[seg]){
 			console.log("Matched processor");
 			var proc = processors[seg];
+      console.log(resultStream);
 			resultStream = proc.init(resultStream);
 			if(!resultStream){
 				onError(seg+" returned null stream");
