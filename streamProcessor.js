@@ -131,7 +131,7 @@ createProcessor('twitter', 'html', 'listImages', function(stream) {
 
   stream.on('data', function(chunk) {
     var img = '<div>';
-    var tweet = JSON.parse(chunk);
+    var tweet = JSON.parse(chunk).entities;
     if (tweet.urls) {
       for (var i = 0; i < tweet.urls.length; i++) {
         if (imgur.test(urls[i].expanded_url)) {
@@ -146,11 +146,10 @@ createProcessor('twitter', 'html', 'listImages', function(stream) {
   stream.on('end', function() {
     out.end();
   });
-
 });
 
 createProcessor('html', 'html', 'html', function(stream) {
-  stream.headers = stream.headers | {};
+  stream.headers = stream.headers || {};
   stream.headers['Content-Type'] = "text/html";
   return stream;
 });
