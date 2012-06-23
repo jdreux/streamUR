@@ -1,6 +1,14 @@
 var fs = require("fs");
 var https = require("https");
 var querystring = require('querystring');
+var util = require("util");
+var twitter = require("twitter");
+var streamur = new twitter({
+  consumer_key: ,
+  consumer_secret: 'STATE YOUR NAME',
+  access_token_key: 'STATE YOUR NAME',
+  access_token_secret: 'STATE YOUR NAME'
+});
 
 var streams = exports.streams = {};
 

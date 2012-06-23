@@ -161,3 +161,6 @@ createProcessor('img', 'img', 'png', function(stream) {
   return stream;
 });
 
+createProcessor('img','gif','gif', function(stream) {
+
+});
