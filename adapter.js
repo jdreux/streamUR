@@ -74,7 +74,7 @@ TwitterAdapter.prototype = {
     parsed = {};
     parsed["track"] = options["track"];
     parsed["follow"] = options["follow"];
-    return parse;
+    return parsed;
   }
 }
 
