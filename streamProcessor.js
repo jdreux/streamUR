@@ -85,9 +85,9 @@ createProcessor('js', 'js', 'nocache', function(stream) {
 });
 
 createProcessor('js', 'js', 'gzip', function(stream) {
-}):
+});
 
 createProcessor('js', 'js', 'js', function(stream) {
   stream.headers['Content-Type'] = "application/javascript";
   return stream;
-};
+});
