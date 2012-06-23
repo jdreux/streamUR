@@ -5,8 +5,6 @@ var adapter = require('./adapter'),
 	validateType = streamProcessor.validateType
 
 module.exports = function processSegments(segments, onSuccess, onError, onNotFound){
-	console.log(streams);
-	console.log(processors);
 	var chain = [];
 	var cp = 0;
 	var type = undefined;
@@ -25,12 +23,14 @@ module.exports = function processSegments(segments, onSuccess, onError, onNotFou
 			var stream = streams[seg].openStream();
 			type = stream.type;
 			if(resultStream){
+				console.log("concating "+seg);
 				resultStream = processors.cat.init(resultStream, stream);
 				if(!resultStream){
 					onError("Cat returned unll stream");
 					return;
 				}
 			} else {
+				console.log("initial stream: "+seg);
 				resultStream = stream;
 				if(!resultStream){
 					onError(seg+" returned null stream");
