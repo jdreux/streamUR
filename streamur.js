@@ -28,10 +28,18 @@ app.get('/streams', function(req, res, next){
 	var streams = require('./adapter').streams;
 	var streamResponse = [];
 	for(var i in streams){
-		streamResponse.push({
+		var st = {
 			name: i,
-      type: streams[i].type
-		});
+      		type: streams[i].type,
+			
+		}
+		
+		if(st.type == 'js'){
+			st.filename= streams[i]._fileName;
+		}
+		
+		
+		streamResponse.push(st);
 	}
 	
 	res.setHeader("Content-Type","application/json");
