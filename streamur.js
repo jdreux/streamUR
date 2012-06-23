@@ -38,6 +38,7 @@ JavascriptAdapter.add("twtest","files/twtest.js");
 
 TwitterAdapter.add("streamur",{username: "streamur",password: "streamur1", follow:"streamur"});
 TwitterAdapter.add("imgur",{username: "streamur",password: "streamur1", follow:"imgur"});
+TwitterAdapter.add("twitpics",{username: "streamur",password: "streamur1", track:"imgur"});
 
 console.log("StreamUR listening on port 8000.");
 
@@ -133,7 +134,7 @@ app.get('/:segment', function(req, res, next){
 					res.setHeader(i, stream.headers[i]);
 				}
 			}
-			cache[requested] = {
+	/*		cache[requested] = {
 				headers : stream.headers,
 				completed : false,
 				value: ''
@@ -146,9 +147,21 @@ app.get('/:segment', function(req, res, next){
 			stream.on('end', function(){
 				cache[requested].completed = true;
 			})
+		*/	
 			
 			stream.resume();
 			stream.pipe(res);
+		/*	stream.on('data', function(chunk){
+				console.log('data');
+				res.write(chunk);
+			res.writeContinue();
+			})
+
+			stream.on('end', function(){
+				console.log('end');
+				res.end();
+			})*/
+			
 		},
 		//onError
 		function(error){
