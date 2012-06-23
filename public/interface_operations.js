@@ -72,8 +72,16 @@ function selectProcessor(selType){
 }
 
 function addStream(){
-	var html = '<form>';
-	html += '<p>Name: <input type="text" /></p>';
+	var html = '<form id="newStream" onSubmit="return catchSubmission()">';
+	html += '<p>Name: <input type="text" name="streamName" /></p>';
+	html += '<p>Type:</p>';
+	html += '<p><input type="radio" name="streamType" value="js" /> js</p>';
+	html += '<p><input type="radio" name="streamType" value="image" /> Image</p>';
+	html += '<p><input type="radio" name="streamType" value="twitter" /> Twitter</p>';
+	html += '<p><input type="submit" value="Next" /></p>';
+	html += '</div></form>';
+	
 	$('#mainView').html(html);
 	return false;
 }
+
