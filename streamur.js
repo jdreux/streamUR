@@ -11,6 +11,11 @@ app.configure(function(){
 	app.use(express.session({ secret: "keyboard cat" }));
 	app.use(express.static(__dirname + '/public'));
     app.use(app.router);
+	app.use(function(req, res, next){
+		//404 handler.
+		res.statusCode = 404;
+		res.end("Not found");
+	});
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
@@ -40,7 +45,9 @@ app.put('/streams', function(req, res, next){
 })
 
 app.get('/:segment', function(req, res, next){
+	
 	var segments = req.params.segment.split('.');
+	
 	
 	var stream = processSegments(segments,
 		//onSuccess
@@ -50,6 +57,7 @@ app.get('/:segment', function(req, res, next){
 					res.setHeader(i, stream.headers[i]);
 				}
 			}
+			stream.resume();
 			stream.pipe(res);
 		},
 		//onError

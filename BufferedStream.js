@@ -14,6 +14,7 @@ var BufferedStream = function (limit) {
   this.readable = true;
 }
 util.inherits(BufferedStream, stream.Stream);
+
 BufferedStream.prototype.pipe = function (dest, options) {
   var self = this
   if (self.resume) self.resume();
@@ -37,10 +38,10 @@ BufferedStream.prototype.pipe = function (dest, options) {
   return dest
 }
 BufferedStream.prototype.write = function (chunk) {
-  if (!this.chunks) {
+//  if (!this.chunks) {
     this.emit('data', chunk);
     return;
-  }
+ // }
   this.chunks.push(chunk);
   this.size += chunk.length;
   if (this.limit < this.size) {
@@ -48,9 +49,9 @@ BufferedStream.prototype.write = function (chunk) {
   }
 }
 BufferedStream.prototype.end = function () {
-  if(!this.chunks)
+//  if(!this.chunks)
     this.emit('end');
-  else
+ // else
     this.ended = true
 }
 

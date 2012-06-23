@@ -1,6 +1,7 @@
 var jsp = require("uglify-js").parser;
 var pro = require("uglify-js").uglify,
-	BufferedStream = require('./BufferedStream');
+	BufferedStream = require('./BufferedStream'),
+	gzip = require('gzip');
 
 var processorList = {};
 
@@ -65,10 +66,11 @@ processorList['cat'] = cat;
 
 createProcessor('js', 'js', 'min', function(stream) {
 
-  var out = stream;
+  var out = new BufferedStream();
   var orig_code = "";
 
-  stream.setEncoding('utf8');
+  // stream.setEncoding('utf8');
+  stream.resume();
   stream.on('data', function(chunk) {
     orig_code += chunk;
   });
@@ -78,20 +80,47 @@ createProcessor('js', 'js', 'min', function(stream) {
     ast = pro.ast_squeeze(ast); // get an AST with compression optimizations
     var final_code = pro.gen_code(ast); // compressed code here
     out.write(final_code);
-    out.close();
+    out.end();
   });
   return out;
 });
 
 createProcessor('js', 'js', 'nocache', function(stream) {
-
+  stream.headers = stream.headers || {};
+  stream.headers["Cache-Control"] = "no-cache, must-revalidate";
+  stream.headers["Expires"] = "Sat, 26 Jul 1997 05:00:00 GMT";
+  return stream;
 });
 
 createProcessor('js', 'js', 'gzip', function(stream) {
+	var out = new BufferedStream();
+	var orig_code = "";
+	
+	stream.headers = stream.headers || {};
+	stream.headers["Content-Encoding"] = "gzip";
+	stream.resume();
+	// stream.setEncoding('utf8');
+	stream.on('data', function(chunk) {
+	    orig_code += chunk;
+	});
+	stream.on('end', function() {
+	   	gzip(orig_code, function(err, data){
+		  // By default:
+		  //   compression = 8
+		  //   encoding = utf8
+			if(err){
+				throw err;
+			}
+		  	out.write(data);
+	    	out.end();
+		});
+	    
+	  });
+	  return out;
 });
 
 createProcessor('js', 'js', 'js', function(stream) {
-	stream.headers = {};
+  stream.headers = stream.headers || {};
   stream.headers['Content-Type'] = "application/javascript";
   return stream;
 });

@@ -40,11 +40,13 @@ module.exports = function processSegments(segments, onSuccess, onError, onNotFou
 		} else if(processors[seg]){
 			console.log("Matched processor");
 			var proc = processors[seg];
-			if(proc.inputType != type){
-				onError("Processor "+seg+" expects type "+proc.inputType+" but "+type+" was received");
-				return;
-			}
-			type = proc.outputType;
+		//	if(proc.inputType != type){
+		//		onError("Processor "+seg+" expects type "+proc.inputType+" but "+type+" was received");
+		//		return;
+		//	}
+		//	console.log(type);
+		//	type = proc.outputType;
+		//	console.log(type);
 			resultStream = proc.init(resultStream);
 			if(!resultStream){
 				onError(seg+" returned null stream");

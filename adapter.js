@@ -28,6 +28,7 @@ JavascriptAdapter.add = function(name, filename) {
 
 JavascriptAdapter.add("stream1","stream1.js");
 JavascriptAdapter.add("stream2","stream2.js");
+JavascriptAdapter.add("jquery","jquery-1.7.2.js");
 
 function TwitterAdapter(name, options) {
   this.init(name,options)
