@@ -20,14 +20,12 @@ console.log("StreamUR listening on port 8000.");
 app.get('/:segment', function(req, res, next){
 	var segments = req.params.segment.split('.');
 	
-	processSegments(segments,
-		//onSucess
-		function(stream){
-			stream.pipe(res);
-		},
+	var stream = processSegments(segments,
 		//onError
 		function(error){
 			next(error, req, res, next);
 		}
 	);
+	
+	stream.pipe(res);
 });
