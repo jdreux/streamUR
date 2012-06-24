@@ -3,6 +3,7 @@ var pro = require("uglify-js").uglify,
 	BufferedStream = require('./BufferedStream'),
 	gzip = require('gzip'),
 	im = require('imagemagick'),
+	JSLINT = require('./lib/jslint.js'),
 	tmp = require('tmp');
 
 var processorList = {};
@@ -193,6 +194,24 @@ createProcessor('twitter', 'html', 'listImages', function(stream) {
   });
 
   return out;
+});
+
+createProcessor('js', 'js', 'jslint', function(stream){
+	
+	var out = new BufferedStream();
+	var source = "";
+	
+	stream.headers = stream.headers || {};
+	out.headers = stream.headers;
+	stream.resume();
+	stream.on('data', function(chunk) {
+	    source += chunk;
+	});
+	stream.on('end', function() {
+	   	out.write(JSON.stringify(JSLINT(source)?true:JSLINT.errors, null, '\t'));
+    	out.end();
+	});
+	return out;
 });
 
 
