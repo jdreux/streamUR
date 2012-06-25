@@ -22,6 +22,5 @@
   "engines": {
     "node": "*"
   },
-  "homepage": "https://github.com/jdreux/streamUR",
-  "main": "streamur.js"
+  "homepage": "https://github.com/jdreux/streamUR"
 }
