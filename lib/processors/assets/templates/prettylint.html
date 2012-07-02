@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<title>JSLint Test Results</title>
+	</head>
+	<body>
+		<%if(result === true){%>
+			<h1>No errors</h1>
+		<%} else {%>
+			<div>
+				<h1>Found <%=errors.length%> error<%=errors.length>1?"s":""%></h1>
+				<% for (var i=0; i<errors.length; i++){
+					var err = errors[i];
+					if(!err){continue;}
+					%>
+					<div>
+						<p><b>Error:</b></p>
+						<p><i>Line <%=err.line%>.<%=err.character%>:</i> <%=err.reason%></p>
+					</div>
+				<% } %>
+			</div>
+		<%}%>
+	</body>
+</html>
