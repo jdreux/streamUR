@@ -1,1 +1,1 @@
-require('./lib/streamur');
+module.exports = require('./lib/streamur');
