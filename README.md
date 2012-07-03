@@ -21,7 +21,7 @@ streamur.stream("jquery", "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jq
 streamur.stream("myscript", __dirname+"/public/js/myscript.js");
 
 
-app.use('/assets/', streamur);
+app.use('/assets/', streamur());
 ```
 
 You can then request:
@@ -103,6 +103,10 @@ streamur.alias('scripts', 'jquery.underscore.backbone.myscript1.myscrip2');
 ```
 
 You can then request *scripts.min.js* which would yield an identical result as *jquery.underscore.backbone.myscript1.myscrip2.min.js*.
+
+## Caching
+
+StreamUR caches the result of each script access. This is important especially as some processors are CPU intensive and take a long time to complete (e.g. min). If you use StreamUR in production, it is recommended that each resource is accessed at least once after server startup to populate the cache.
 
 ## License
 
