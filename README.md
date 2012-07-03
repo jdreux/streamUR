@@ -29,14 +29,14 @@ You can then request:
 * /assets/jquery.myscript.min.js, same as above but the files are minified.
 * /assets/jquery.myscript.min.gzip.js, same as above, but the minified files are gziped.
 
-Streamur revolves around two core concepts: streams ('jquery' and 'myscript') that are user defined and processors ('.', 'min', 'gzip' and 'js') that are provided.
+StreamUR revolves around two core concepts: streams ('jquery' and 'myscript') that are user defined and processors ('.', 'min', 'gzip' and 'js') that are provided.
 
 
 ## Other uses
 
-There are some other handy processors that can be used with streamUR. For instance the jslint processors runs the JSLINT tool on the javscript code and presents the results: */assets/myscript.jslint.js*.
+That's great for managing your assets but there is more StreamUR can do for you. For instance the jslint processors runs the JSLINT tool on the javscript code and presents the results: */assets/myscript.jslint.json*. Makes it easy for you to check how well your code is doing!
 
-To get a nicer view of the results, you can use the *prettyjslint* processor that returns HTML: */assets/myscript.prettyjslint.html*.
+But JSON is not very nice to read. To get a nicer view of the results, you can use the *prettyjslint* processor that returns HTML: */assets/myscript.prettyjslint.html*.
 
 There are other useful processors that can be used, see the full list below.
 
