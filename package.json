@@ -11,7 +11,9 @@
     "uglify-js": "*",
     "gzip": "*",
 	"highlight": "*",
-	"ejs": "*"
+	"ejs": "*",
+	"clean-css": ">=0.4.2",
+	"less": ">=1.3.0"
   },
   "engines": {
     "node": "*"

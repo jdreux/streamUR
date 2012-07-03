@@ -12,8 +12,15 @@ streamur.stream("jquery", __dirname+"/assets/stream_files/jquery-1.7.2.js");
 console.log("Adding hightlightstyle");
 streamur.stream('highlightstyle', 'https://raw.github.com/andris9/highlight/master/lib/vendor/highlight.js/styles/sunburst.css');
 
+console.log("Adding lesstest")
+streamur.stream('lesstest', __dirname+"/assets/stream_files/lesstest.css");
+
 console.log("registering alias");
-streamur.alias('jq','jquery.min');
+streamur.alias('jq', function(alias){
+	alias.stream("myscript", __dirname+"/assets/myscript.js");
+	alias.stream("jquery2", __dirname+"/assets/stream_files/jquery-1.7.2.js");
+});
+
 
 app.listen(8000);
 console.log("StreamUR test listening on port 8000.");
