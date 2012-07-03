@@ -103,4 +103,18 @@ Source code is licenced under [The MIT License](https://github.com/jdreux/stream
 
 ## Contributors
 
-This project was initially developped for the  Summer Blast-off Hackathon, Saturday, June 23, 2012. 
+This project was initially developped for the  Summer Blast-off Hackathon, Saturday, June 23, 2012.
+
+[git-summary](http://github.com/visionmedia/git-extras):
+
+ project  : streamUR
+ repo age : 10 days ago
+ active   : 6 days
+ commits  : 157
+ files    : 23
+ authors  : 
+    75	Julien Dreux            47.8%
+    37	Thomas Getgood          23.6%
+    32	Stephen R. Hamilton     20.4%
+    12	ben-zen                 7.6%
+     1	jdreux                  0.6%
