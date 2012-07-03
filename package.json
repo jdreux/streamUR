@@ -1,24 +1,18 @@
 {
   "name": "streamUR",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "Julien Dreux <julien.dreux@gmail.com> (www.juliendreux.com); Thomas Getgood <thomas.getgood@gmail.com>, StephenHamilton, ben-zen",
-  "description": "A modular, general purpose stream manager started for the summer Blast-off Hackathon, Saturday, June 23, 2012, Montreal, QC, Canada.",
+  "description": "A modular, general purpose stream manager started for the summer Blast-off Hackathon, Saturday, June 23, 2012, Montreal, QC, Canada, completed & released as an asset manager by Julien Dreux.",
   "repository": {
     "type": "git",
     "url": "git://github.com/jdreux/stremur.git"
   },
   "dependencies": {
-    "express": "2.5.10",
-    "uglify-js": "1.3.1",
-    "underscore": ">0",
-    "gzip": ">0",
-    "tmp": "*",
-    "twitter": ">0",
-	"highlight": ">0",
+    "uglify-js": "*",
+    "gzip": "*",
+	"highlight": "*",
 	"ejs": "*"
   },
-  "devDependencies": {},
-  "optionalDependencies": {},
   "engines": {
     "node": "*"
   },
