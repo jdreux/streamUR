@@ -15,7 +15,10 @@ console.log("Adding lexitlogin");
 streamur.registerStream("lexitlogin", 'https://justlexit.com/js/v1.3.2/modules/login.js')
 console.log("Adding hightlightstyle");
 streamur.registerStream('highlightstyle', 'https://raw.github.com/andris9/highlight/master/lib/vendor/highlight.js/styles/sunburst.css');
-	
+
+console.log("registering alias");
+streamur.registerAlias('scripts','lexitlogin.jquery');
+
 app.listen(8000);
 console.log("StreamUR test listening on port 8000.");
 
