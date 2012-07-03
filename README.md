@@ -49,6 +49,13 @@ Register streams by calling the *streamur.stream(name, locator)* method.
 
 *locator* is the path at which this stream can be found. It may be an absolute file path or a URL.
 
+Example:
+
+```js
+streamur.stream("jquery", "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js");
+streamur.stream("myscript", __dirname+"/public/js/myscript.js");
+```
+
 ## Processors
 
 There are a number of processors that apply to different types of streams, and more are in development, stay tuned!
