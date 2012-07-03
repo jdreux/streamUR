@@ -8,16 +8,12 @@ app.use('/assets/', streamur());
 console.log('Adding sample streams');
 
 console.log("adding jquery");
-streamur.registerStream("jquery", __dirname+"/assets/stream_files/jquery-1.7.2.js");
-console.log("adding interface");
-streamur.registerStream("interface", __dirname+"/../web/public/interface_operations.js");
-console.log("Adding lexitlogin");
-streamur.registerStream("lexitlogin", 'https://justlexit.com/js/v1.3.2/modules/login.js')
+streamur.stream("jquery", __dirname+"/assets/stream_files/jquery-1.7.2.js");
 console.log("Adding hightlightstyle");
-streamur.registerStream('highlightstyle', 'https://raw.github.com/andris9/highlight/master/lib/vendor/highlight.js/styles/sunburst.css');
+streamur.stream('highlightstyle', 'https://raw.github.com/andris9/highlight/master/lib/vendor/highlight.js/styles/sunburst.css');
 
 console.log("registering alias");
-streamur.registerAlias('scripts','lexitlogin.jquery');
+streamur.alias('jq','jquery.min');
 
 app.listen(8000);
 console.log("StreamUR test listening on port 8000.");
