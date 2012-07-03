@@ -3,8 +3,6 @@ StreamUR
 
 A very capable asset manager for [node](http://nodejs.org). But also a lot more.
 
-
-
 ## Installation
 
     $ npm install streamur
@@ -37,9 +35,9 @@ Streamur revolves around two core concepts: streams ('jquery' and 'myscript') th
 
 ## Other uses
 
-There are some other handy processors that can be used with streamUR. For instance the jslint processors runs the JSLINT tool on the javscript code and presents the results. Try: */assets/myscript.jslint.js*.
+There are some other handy processors that can be used with streamUR. For instance the jslint processors runs the JSLINT tool on the javscript code and presents the results: */assets/myscript.jslint.js*.
 
-To get a nicer view of the results, you can use the *prettyjslint* processor that returns HTML. Try: */assets/myscript.prettyjslint.html*.
+To get a nicer view of the results, you can use the *prettyjslint* processor that returns HTML: */assets/myscript.prettyjslint.html*.
 
 There are other useful processors that can be used, see the full list below.
 
@@ -49,29 +47,29 @@ Register streams by calling the *streamur.stream(name, locator)* method.
 
 *name* is descriptor used for that stream and can only contain [a-z0-9].
 
-*locator* is the path at which this stream can be found. It can be an absolute file path or a URL.
+*locator* is the path at which this stream can be found. It may be an absolute file path or a URL.
 
 ## Processors
 
 There are a number of processors that apply to different types of streams, and more are in development, stay tuned!
 
 ### dot (.)
-'.' is the concatination processor for streams. It groups streams together and chains them to the next processor.
+The concatination processor for streams. It groups streams together and chains them to the next processor.
 
 ### min
-Minifies javascript code using uglifyjs[https://github.com/mishoo/UglifyJS/]
+Minifies javascript code using [uglifyjs](https://github.com/mishoo/UglifyJS/).
 
 ### gzip
-Gzips files and sets the proper header on the response. Uses gzip[https://github.com/indutny/node.gzip]
+Gzips files and sets the proper header on the response. Uses [gzip](https://github.com/indutny/node.gzip).
 
 ### jslint
-Runs JSLINT[http://www.jslint.com/] on the stream and returns the result as raw JSON.
+Runs [JSLINT](http://www.jslint.com/) on the stream and returns the result as raw JSON.
 
 ### prettyjslint
-Runs JSLINT[http://www.jslint.com/] on the stream and formats the results in HTML format.
+Runs [JSLINT](http://www.jslint.com/) on the stream and formats the results in HTML format.
 
 ### highlight
-Highlights Javascript code in the stream using highlight[https://github.com/andris9/highlight]. Returns HTML
+Highlights Javascript code in the stream using [highlight](https://github.com/andris9/highlight). Returns HTML
 
 ### nocache
 Sets No-cache headers on the response, telling the client that the resource should not be cached.
@@ -87,6 +85,17 @@ Sets the response's content type as JSON.
 
 ### css
 Sets the response's content type as CSS.
+
+## Aliases
+
+Aliases are useful to shorten the names of ressources (such as when many streams are concatinated together). To create an alias, use *streamur.alias(name, alias)*.
+
+Example:
+```js
+streamur.alias('scripts', 'jquery.underscore.backbone.myscript1.myscrip2');
+```
+
+You can then request *scripts.min.js* which would yield an identical result as *jquery.underscore.backbone.myscript1.myscrip2.min.js*.
 
 ## License
 
