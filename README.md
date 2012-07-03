@@ -34,9 +34,15 @@ StreamUR revolves around two core concepts: streams ('jquery' and 'myscript') th
 
 ## Other uses
 
-That's great for managing your assets but there is more StreamUR can do for you. For instance the jslint processors runs the JSLINT tool on the javscript code and presents the results: */assets/myscript.jslint.json*. Makes it easy for you to check how well your code is doing!
+That's great for managing your assets but there is more StreamUR can do for you. For instance the jslint processors runs the JSLINT tool on the javscript code and presents the results: 
 
-But JSON is not very nice to read. To get a nicer view of the results, you can use the *prettyjslint* processor that returns HTML: */assets/myscript.prettyjslint.html*.
+	/assets/myscript.jslint.json
+
+Makes it easy for you to check how well your code is doing!
+
+But JSON is not very nice to read. To get a nicer view of the results, you can use the *prettyjslint* processor that returns HTML: 
+
+	/assets/myscript.prettyjslint.html
 
 There are other useful processors that can be used, see the full list below.
 
