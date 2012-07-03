@@ -20,7 +20,6 @@ var streamur = require('streamur');
 streamur.stream("jquery", "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js");
 streamur.stream("myscript", __dirname+"/public/js/myscript.js");
 
-
 app.use('/assets/', streamur());
 ```
 
