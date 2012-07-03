@@ -1,4 +1,4 @@
-streamUR
+StreamUR
 ========
 
 A very capable asset manager for [node](http://nodejs.org). But also a lot more.
@@ -9,8 +9,7 @@ A very capable asset manager for [node](http://nodejs.org). But also a lot more.
 
     $ npm install streamur
 
-## Overview
-
+## Asset Manager
 
 It is intuitive to use streamur as a powerful asset manager, easily allowing to minify and gzip resources. 
 
@@ -33,7 +32,16 @@ You can then request:
 * /assets/jquery.myscript.min.js, same as above but the files are minified.
 * /assets/jquery.myscript.min.gzip.js, same as above, but the minified files are gziped.
 
-Streamur revolves around two core concepts: streams (here, 'jquery' and 'myscript') that are user defined and processors (here, '.', 'min', 'gzip' and 'js') that are provided.
+Streamur revolves around two core concepts: streams ('jquery' and 'myscript') that are user defined and processors ('.', 'min', 'gzip' and 'js') that are provided.
+
+
+## Other uses
+
+There are some other handy processors that can be used with streamUR. For instance the jslint processors runs the JSLINT tool on the javscript code and presents the results. Try: */assets/myscript.jslint.js*.
+
+To get a nicer view of the results, you can use the *prettyjslint* processor that returns HTML. Try: */assets/myscript.prettyjslint.html*.
+
+There are other useful processors that can be used, see the full list below.
 
 ## Streams
 
@@ -47,12 +55,42 @@ Register streams by calling the *streamur.stream(name, locator)* method.
 
 There are a number of processors that apply to different types of streams, and more are in development, stay tuned!
 
-### .
-'.' is the concatination
+### dot (.)
+'.' is the concatination processor for streams. It groups streams together and chains them to the next processor.
+
+### min
+Minifies javascript code using uglifyjs[https://github.com/mishoo/UglifyJS/]
+
+### gzip
+Gzips files and sets the proper header on the response. Uses gzip[https://github.com/indutny/node.gzip]
+
+### jslint
+Runs JSLINT[http://www.jslint.com/] on the stream and returns the result as raw JSON.
+
+### prettyjslint
+Runs JSLINT[http://www.jslint.com/] on the stream and formats the results in HTML format.
+
+### highlight
+Highlights Javascript code in the stream using highlight[https://github.com/andris9/highlight]. Returns HTML
+
+### nocache
+Sets No-cache headers on the response, telling the client that the resource should not be cached.
+
+### html
+Sets the response's content type as HTML.
+
+### js
+Sets the response's content type as Javascript.
+
+### json
+Sets the response's content type as JSON.
+
+### css
+Sets the response's content type as CSS.
 
 ## License
 
-Source code is licenced under [The MIT License](https://github.com/jdreux/streamUR/blob/master/LICENSE)
+Source code is licenced under [The MIT License](https://github.com/jdreux/streamUR/blob/master/LICENSE).
 
 ## Contributors
 
