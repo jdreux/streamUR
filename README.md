@@ -104,10 +104,10 @@ Aliases are useful to shorten the names of ressources (such as when many streams
 
 Example:
 ```js
-streamur.alias('scripts', 'jquery.underscore.backbone.myscript1.myscrip2');
+streamur.alias('scripts', 'jquery.underscore.myscript1.myscrip2.min');
 ```
 
-You can then request *scripts.min.js* which would yield an identical result as *jquery.underscore.backbone.myscript1.myscrip2.min.js*.
+You can then request *scripts.gzip.js* which would yield an identical result as *jquery.underscore.myscript1.myscrip2.min.gzip.js*.
 
 ## Caching
 
