@@ -106,7 +106,7 @@ Aliases are useful to shorten the names of resources (such as when many streams 
 
 There are three different ways to create an alias:
 
-1. Using `streamur.alias(name, expression)`. Example:
+a. Using `streamur.alias(name, expression)`. Example:
 
 ```js
 streamur.alias('scripts', 'jquery.underscore.myscript1.myscrip2.min');
@@ -114,7 +114,7 @@ streamur.alias('scripts', 'jquery.underscore.myscript1.myscrip2.min');
 
 You can then request `scripts.gzip.js` which would yield an identical result as `jquery.underscore.myscript1.myscrip2.min.gzip.js`.
 
-2. Using `streamur.alias(name, function)`. Example:
+b. Using `streamur.alias(name, function)`. Example:
 
 ```js
 streamur.alias('scripts', function(alias){
@@ -124,7 +124,7 @@ streamur.alias('scripts', function(alias){
 ```
 Request `scripts` would be identical to `jquery.myscript`, and the `myscript` and `jquery` streams are also created.
 
-3. Using `streamur.aliasDirectory(name, path)`, where `path` is the name of the folder containing all the files to be created as streams and made part of the alias. Example:
+c. Using `streamur.aliasDirectory(name, path)`, where `path` is the name of the folder containing all the files to be created as streams and made part of the alias. Example:
 
 ```js
 streamur.aliasDirectory('global', __dirname+"/assets/global")
