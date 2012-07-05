@@ -132,12 +132,12 @@ streamur.aliasDirectory('global', __dirname+"/assets/global")
 
 In this case, all files in the directory will be made streams. The name of each stream will be the file name, only keeping alphanumeric characters. In some rare cases, this may result in stream name collision.
 
-**The streams will be concatinated in their alphabetical order in the directory. Therefore, this method is not recommended for grouping javascript files that have interdependencies.**
+**The streams will be concatenated in their alphabetical order in the directory. Therefore, this method is not recommended for grouping javascript files that have interdependencies.**
 
 
 ## Caching
 
-StreamUR caches the result of each script access. This is important especially as some processors are CPU intensive and take a long time to complete (e.g. min). If you use StreamUR in production, it is recommended that each resource is accessed at least once after server startup to populate the cache.
+StreamUR caches the result of each script access. This is important especially as some processors are CPU intensive and take a long time to complete (e.g. `min`). If you use StreamUR in production, it is recommended that each resource is accessed at least once after server startup to populate the cache.
 
 ## License
 
