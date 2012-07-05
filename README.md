@@ -11,6 +11,8 @@ A very capable asset manager for [node](http://nodejs.org). But also a lot more.
 
 It is intuitive to use streamur as a powerful asset manager, easily allowing to minify and gzip resources. 
 
+Use the `streamur.stream` method to create new streams that map to your resources.
+
 Example:
 
 ```js
@@ -31,16 +33,13 @@ You can then request:
 
 StreamUR revolves around two core concepts: streams ('jquery' and 'myscript') that are user defined and processors ('.', 'min', 'gzip' and 'js') that are provided.
 
-
 ## Other uses
 
-That's great for managing your assets but there is more StreamUR can do for you. For instance the jslint processors runs the JSLINT tool on the javscript code and presents the results: 
+That is great for managing your assets but there is more StreamUR can do for you. For instance the jslint processors runs the JSLINT tool on the javscript code and presents the results: 
 
 	/assets/myscript.jslint.json
 
-Makes it easy for you to check how well your code is doing!
-
-But JSON is not very nice to read. To get a nicer view of the results, you can use the *prettyjslint* processor that returns HTML: 
+But JSON is not very nice to read. To get a nicer view of the results, you can use the `prettyjslint` processor that returns HTML: 
 
 	/assets/myscript.prettyjslint.html
 
@@ -48,11 +47,11 @@ There are other useful processors that can be used, see the full list below.
 
 ## Streams
 
-Register streams by calling the *streamur.stream(name, locator)* method. 
+Register streams by calling the `streamur.stream(name, locator)` method. 
 
-*name* is descriptor used for that stream and can only contain [a-z0-9].
+`name` is descriptor used for that stream and can only contain [a-z0-9].
 
-*locator* is the path at which this stream can be found. It may be an absolute file path or a URL.
+`locator` is the path at which this stream can be found. It may be an absolute file path or a URL.
 
 Example:
 
@@ -100,14 +99,38 @@ Sets the response's content type as CSS.
 
 ## Aliases
 
-Aliases are useful to shorten the names of ressources (such as when many streams are concatinated together). To create an alias, use *streamur.alias(name, alias)*.
+Aliases are useful to shorten the names of resources (such as when many streams are concatenated together). 
 
-Example:
+There are three different ways to create an alias:
+
+* Using `streamur.alias(name, expression)`. Example:
+
 ```js
 streamur.alias('scripts', 'jquery.underscore.myscript1.myscrip2.min');
 ```
 
-You can then request *scripts.gzip.js* which would yield an identical result as *jquery.underscore.myscript1.myscrip2.min.gzip.js*.
+You can then request `scripts.gzip.js` which would yield an identical result as `jquery.underscore.myscript1.myscrip2.min.gzip.js`.
+
+* Using `streamur.alias(name, function)`. Example:
+
+```js
+streamur.alias('scripts', function(alias){
+	alias.stream("jquery", __dirname+"/public/js/jquery-1.7.2.js");
+	alias.stream("myscript", __dirname+"/public/js/myscript.js");	
+});
+```
+Request `scripts` would be identical to `jquery.myscript`, and the `myscript` and `jquery` streams are also created.
+
+* Using `streamur.aliasDirectory(name, path)`, where `path` is the name of the folder containing all the files to be created as streams and made part of the alias. Example:
+
+```js
+streamur.aliasDirectory('global', __dirname+"/assets/global")
+```
+
+In this case, all files in the directory will be made streams. The name of each stream will be the file name, only keeping alphanumeric characters. In some rare cases, this may result in stream name collision.
+
+**Warning: the streams will be concatinated in their alphabetical order in the directory. Therefore, this method is not recommended for concating script files that have interdependencies.**
+
 
 ## Caching
 
