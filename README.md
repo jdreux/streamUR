@@ -49,7 +49,7 @@ There are other useful processors that can be used, see the full list below.
 
 Register streams by calling the `streamur.stream(name, locator)` method. 
 
-`name` is descriptor used for that stream and can only contain [a-z0-9].
+`name` is that descriptor used for that stream and must be alphanumeric.
 
 `locator` is the path at which this stream can be found. It may be an absolute file path or a URL.
 
@@ -70,8 +70,11 @@ The concatination processor. It groups streams together and chains them to the n
 ### min
 Minifies javascript code using [uglifyjs](https://github.com/mishoo/UglifyJS/).
 
+### mini
+Minifies css code using [clean-css](https://github.com/GoalSmashers/clean-css).
+
 ### gzip
-Gzips files and sets the proper header on the response. Uses [gzip](https://github.com/indutny/node.gzip).
+Gzips the stream and sets the proper header on the response. Uses [gzip](https://github.com/indutny/node.gzip).
 
 ### jslint
 Runs [JSLINT](http://www.jslint.com/) on the stream and returns the result as raw JSON.
