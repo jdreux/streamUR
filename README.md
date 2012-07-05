@@ -9,7 +9,7 @@ A very capable asset manager for [node](http://nodejs.org). But also a lot more.
 
 ## Asset Manager
 
-It is intuitive to use streamur as a powerful asset manager, easily allowing to minify and gzip resources. 
+It is intuitive to use streamur as a powerful asset (javascript & css) manager, easily allowing to minify and gzip resources. 
 
 Use the `streamur.stream` method to create new streams that map to your resources.
 
@@ -65,7 +65,7 @@ streamur.stream("myscript", __dirname+"/public/js/myscript.js");
 There are a number of processors that apply to different types of streams, and more are in development, stay tuned!
 
 ### dot (.)
-The concatination processor for streams. It groups streams together and chains them to the next processor.
+The concatination processor. It groups streams together and chains them to the next processor.
 
 ### min
 Minifies javascript code using [uglifyjs](https://github.com/mishoo/UglifyJS/).
@@ -103,7 +103,7 @@ Aliases are useful to shorten the names of resources (such as when many streams 
 
 There are three different ways to create an alias:
 
-* Using `streamur.alias(name, expression)`. Example:
+1. Using `streamur.alias(name, expression)`. Example:
 
 ```js
 streamur.alias('scripts', 'jquery.underscore.myscript1.myscrip2.min');
@@ -111,7 +111,7 @@ streamur.alias('scripts', 'jquery.underscore.myscript1.myscrip2.min');
 
 You can then request `scripts.gzip.js` which would yield an identical result as `jquery.underscore.myscript1.myscrip2.min.gzip.js`.
 
-* Using `streamur.alias(name, function)`. Example:
+2. Using `streamur.alias(name, function)`. Example:
 
 ```js
 streamur.alias('scripts', function(alias){
@@ -121,7 +121,7 @@ streamur.alias('scripts', function(alias){
 ```
 Request `scripts` would be identical to `jquery.myscript`, and the `myscript` and `jquery` streams are also created.
 
-* Using `streamur.aliasDirectory(name, path)`, where `path` is the name of the folder containing all the files to be created as streams and made part of the alias. Example:
+3. Using `streamur.aliasDirectory(name, path)`, where `path` is the name of the folder containing all the files to be created as streams and made part of the alias. Example:
 
 ```js
 streamur.aliasDirectory('global', __dirname+"/assets/global")
@@ -129,7 +129,7 @@ streamur.aliasDirectory('global', __dirname+"/assets/global")
 
 In this case, all files in the directory will be made streams. The name of each stream will be the file name, only keeping alphanumeric characters. In some rare cases, this may result in stream name collision.
 
-**Warning: the streams will be concatinated in their alphabetical order in the directory. Therefore, this method is not recommended for concating script files that have interdependencies.**
+**The streams will be concatinated in their alphabetical order in the directory. Therefore, this method is not recommended for grouping javascript files that have interdependencies.**
 
 
 ## Caching
