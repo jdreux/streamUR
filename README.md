@@ -154,13 +154,15 @@ This project was initially developped for the  Summer Blast-off Hackathon, Satur
 [git-summary](http://github.com/visionmedia/git-extras):
 
 	project  : streamUR
-	repo age : 12 days ago
-	active   : 8 days
-	commits  : 183
+	repo age : 13 days ago
+	active   : 9 days
+	commits  : 188
 	files    : 26
 	authors  : 
-	  101	Julien Dreux            55.2%
-	   37	Thomas Getgood          20.2%
-	   32	Stephen R. Hamilton     17.5%
-	   12	ben-zen                 6.6%
+	  106	Julien Dreux            56.4%
+	   37	Thomas Getgood          19.7%
+	   32	Stephen R. Hamilton     17.0%
+	   12	ben-zen                 6.4%
 	    1	jdreux                  0.5%
+
+
