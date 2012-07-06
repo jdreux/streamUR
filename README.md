@@ -69,16 +69,13 @@ There are a number of processors that apply to different types of streams, and m
 #### dot (.)
 The concatination processor. It groups streams together and chains them to the next processor.
 
+#### gzip
+Gzips the stream and sets the proper header on the response. Uses [gzip](https://github.com/indutny/node.gzip).
+
 ### Javascript Processors
 
 #### min
 Minifies javascript code using [uglifyjs](https://github.com/mishoo/UglifyJS/).
-
-#### mini
-Minifies css code using [clean-css](https://github.com/GoalSmashers/clean-css).
-
-#### gzip
-Gzips the stream and sets the proper header on the response. Uses [gzip](https://github.com/indutny/node.gzip).
 
 #### jslint
 Runs [JSLINT](http://www.jslint.com/) on the stream and returns the result as raw JSON.
@@ -88,6 +85,11 @@ Runs [JSLINT](http://www.jslint.com/) on the stream and formats the results in H
 
 #### highlight
 Highlights Javascript code in the stream using [highlight](https://github.com/andris9/highlight). Returns HTML
+
+### CSS Processors
+
+#### mini
+Minifies css code using [clean-css](https://github.com/GoalSmashers/clean-css).
 
 ### Header Processors
 
