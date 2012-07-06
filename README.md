@@ -141,7 +141,7 @@ StreamUR caches the result of each script access. This is important especially a
 
 StreamUR will invalidate the cache if it detects that any of the underlying streams have been modified. This is useful during development, so that the server does not need to be restarted after each update.
 
-*Warning: Cache invalidation relies on Node's `fs.watch` method which is currently [not available on all platforms](http://nodejs.org/api/fs.html#fs_fs_watch_filename_options_listener).
+*Warning: Cache invalidation relies on Node's `fs.watch` method which is currently [not available on all platforms](http://nodejs.org/api/fs.html#fs_fs_watch_filename_options_listener).*
 
 ## License
 
