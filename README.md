@@ -64,40 +64,46 @@ streamur.stream("myscript", __dirname+"/public/js/myscript.js");
 
 There are a number of processors that apply to different types of streams, and more are in development, stay tuned!
 
-### dot (.)
+### General Purpose Processors
+
+#### dot (.)
 The concatination processor. It groups streams together and chains them to the next processor.
 
-### min
+### Javascript Processors
+
+#### min
 Minifies javascript code using [uglifyjs](https://github.com/mishoo/UglifyJS/).
 
-### mini
+#### mini
 Minifies css code using [clean-css](https://github.com/GoalSmashers/clean-css).
 
-### gzip
+#### gzip
 Gzips the stream and sets the proper header on the response. Uses [gzip](https://github.com/indutny/node.gzip).
 
-### jslint
+#### jslint
 Runs [JSLINT](http://www.jslint.com/) on the stream and returns the result as raw JSON.
 
-### prettyjslint
+#### prettyjslint
 Runs [JSLINT](http://www.jslint.com/) on the stream and formats the results in HTML format.
 
-### highlight
+#### highlight
 Highlights Javascript code in the stream using [highlight](https://github.com/andris9/highlight). Returns HTML
 
-### nocache
+### Header Processors
+
+#### nocache
 Sets No-cache headers on the response, telling the client that the resource should not be cached.
 
-### html
+#### html
 Sets the response's content type as HTML.
 
-### js
+#### js
 Sets the response's content type as Javascript.
 
-### json
+#### json
 Sets the response's content type as JSON.
 
-### css
+#### css
 Sets the response's content type as CSS.
 
 ## Aliases
