@@ -139,6 +139,10 @@ In this case, all files in the directory will be made streams. The name of each 
 
 StreamUR caches the result of each script access. This is important especially as some processors are CPU intensive and take a long time to complete (e.g. `min`). If you use StreamUR in production, it is recommended that each resource is accessed at least once after server startup to populate the cache.
 
+StreamUR will invalidate the cache if it detects that any of the underlying streams have been modified. This is useful during development, so that the server does not need to be restarted after each update.
+
+*Warning: Cache invalidation relies on Node's `fs.watch` method which is currently [not available on all platforms](http://nodejs.org/api/fs.html#fs_fs_watch_filename_options_listener).
+
 ## License
 
 Source code is licenced under [The MIT License](https://github.com/jdreux/streamUR/blob/master/LICENSE).
