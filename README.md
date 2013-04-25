@@ -1,15 +1,19 @@
 StreamUR
 ========
 
-A very capable asset manager for [node](http://nodejs.org). But also a lot more.
+StreamUR is a stream manipulation platform built on [node](http://nodejs.org).
+
+Streams can be conventional file/audio/video but also higher level streams such as twitter feeds. 
+
+StreamUR provides filters to convert streams to different types, to combine several streams into one.
 
 ## Installation
 
     $ npm install streamur
 
-## Asset Manager
+## Example: An Asset Manager
 
-It is intuitive to use streamur as a powerful asset (javascript & css) manager, easily allowing to minify and gzip resources. 
+A simple example to demonstrate what streamUR can do is to build a powerful asset manager, easily allowing to combine, minify and gzip javascript and css files for serving to the browser.
 
 Use the `streamur.stream` method to create new streams that map to your resources.
 
@@ -22,10 +26,11 @@ var streamur = require('streamur');
 streamur.stream("jquery", "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js");
 streamur.stream("myscript", __dirname+"/public/js/myscript.js");
 
+//Use as a connect/express middleware
 app.use('/assets/', streamur());
 ```
 
-You can then request:
+You can then fetch the following 'files': 
 
 * /assets/jquery.myscript.js, which will be the combination of both files 
 * /assets/jquery.myscript.min.js, same as above but the files are minified.
