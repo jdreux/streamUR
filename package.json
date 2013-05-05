@@ -1,6 +1,6 @@
 {
   "name": "streamur",
-  "version": "1.0.5",
+  "version": "1.0.4",
   "author": "Julien Dreux <julien.dreux@gmail.com> (www.juliendreux.com); Thomas Getgood <thomas.getgood@gmail.com>, StephenHamilton, ben-zen",
   "description": "A very capable asset manager. And a few more things.",
   "repository": {
